@@ -90,150 +90,7 @@ void MouseRunner::StartNextStage(void)
 }
 
 
-// Write out code for calculating the tone parameters
-WarningTone::ToneParameters MouseRunner::CalculateToneParameters(void)
-{  
-  // 
-   int nextStage = currentStage +1 ; 
-   
-   // Find difference between next speed and current speed. 
-   float speedDifference = this->stageParameters[nextStage].speed - this->stageParameters[this->currentStage].speed;
 
-   // First check value of speedDifference, then check if current or next stage speed is 0
-  
-   // If speedDifference is positve
-   if (speedDifference > 0) {
-
-      // If current speed is 0, then give "starting" cue  
-      if (stageParameters[this->currentStage].speed == 0) {
-            // Reassign activity reporting tag.
-            activityTag = 8;
-           //Announce warning label
-           CurrentTime=millis()-StartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[this->currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: starting"); 
-           
-           // High pitch, long 
-            WarningTone::ToneParameters result = {
-                .frequency1 = 10000,
-                .frequency2 = 10000,
-                .frequency3 = 10000
-            };
-            return result;    
-      } 
-
-       // If curernt speed is not 0, then give "accelerating" cue.
-       else  {
-
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 10;
-           CurrentTime=millis()-StartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[this->currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: accelerating"); 
-           
-           // low, blank, high (ascending pitches)
-            WarningTone::ToneParameters result = {
-                .frequency1 = 4000,
-                .frequency2 = 0,
-                .frequency3 = 10000
-            };
-            return result;
-        }
-   }
-
-   // Else if speedDifference is negative
-   else if (speedDifference < 0 ){
-      
-      // If next speed is 0, then give "stopping" cue  
-      if (stageParameters[nextStage].speed == 0) { 
-
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 9;
-           CurrentTime=millis()-StartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[this->currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: stopping"); 
-            
-            // Low pitch, 1 long
-            WarningTone::ToneParameters result = {
-                .frequency1 = 4000,
-                .frequency2 = 4000,
-                .frequency3 = 4000
-            };
-            return result;
-      }
-      // If next speed is not 0, then give "decelerating" cue.
-      else {
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 11;
-           CurrentTime=millis()-StartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[this->currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: decelerating"); 
-           
-            // high, blank, low (descending pitches)
-            WarningTone::ToneParameters result = {
-                .frequency1 = 10000,
-                .frequency2 = 0,
-                .frequency3 = 4000
-            };
-            return result;
-        }
-   }
-   
-   // Else (if speedDifference is 0) 
-   else {
-       // Motor will continue at current speed
-
-       //Announce warning label
-       // Reassign activity reporting tag.
-       activityTag = 12;
-       CurrentTime=millis()-StartTime; 
-       Serial.print(String(CurrentTime)); 
-       Serial.print(", "); 
-       Serial.print(stageParameters[this->currentStage].speed);
-       Serial.print(", "); 
-       Serial.print(activityTag); 
-       Serial.print(", "); 
-       Serial.println("Warning cue: maintaining"); 
-
-       // For training, will be blank
-        WarningTone::ToneParameters result = {
-              .frequency1 = 0,
-              .frequency2 = 0,
-              .frequency3 = 0
-        };
-       
-       // Mid, blank, mid
-//        WarningTone::ToneParameters result = {
-//              .frequency1 = 7000,
-//              .frequency2 = 0,
-//              .frequency3 = 7000
-//        };
-        return result;
-   }
-}
 
 /**
  * \brief Handles the mouse runner
@@ -273,7 +130,7 @@ void MouseRunner::RunOnce(void)
                  if (this->warningTone.playTonesStarted == false){
                                  
                   // Figure out warning paramters; input is void because stageParameters was constructed in MouseRunner?
-                  WarningTone::ToneParameters toneParameters = CalculateToneParameters();
+                  WarningTone::ToneParameters toneParameters = warningTone.CalculateToneParameters(this->currentStage);
 
                   this->warningTone.toneParameters=toneParameters;
                  }
@@ -290,7 +147,7 @@ void MouseRunner::RunOnce(void)
             this->currentStage++;
 
             // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop
-            if (this->currentStage >= this->stageTotal || this->stageParameters[this->currentStage].duration == 0)
+            if (this->currentStage >= this->stageTotal || this->stageParameters[currentStage].duration == 0)
             {
                 this->Stop();
                 break;

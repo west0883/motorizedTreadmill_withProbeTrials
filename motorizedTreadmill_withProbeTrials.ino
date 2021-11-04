@@ -12,6 +12,8 @@
 #include "warningTone.h"
 #include "randomizing_functions.h"
 
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+
 // Initialize some time variables. 
 uint32_t StartTime;
 uint32_t CurrentTime;
@@ -43,6 +45,9 @@ struct MouseRunner::StageParameters stageParameters[30];
 // Initialize variable that will hold warning tone parameters.
 struct WarningTone::ToneParameters toneParameters[1];
 
+// Make a flag for if maintaining tones should be used; 
+bool useMaintaining = false; 
+
 // Make a flag for if probe trials should be used.
 bool useProbeTrials = false;
 
@@ -66,22 +71,20 @@ int activityTag = 0;
  *  12 = tone: maintaining
  */ 
 
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
-
 // Declare your objects.
 static Motor motor;
 static WarningTone warningTone;
 static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), motor, warningTone);
-
 
 void setup(void)
 {
   Serial.begin(115200);
   pinMode(tonePin, OUTPUT);
 
+  // Randomize time Edits stageParameters.
   struct time_outputs randomTime = randomizeTime();
 
-  // Randomize speed. Edits stageParameters (with pointers) 
+  // Randomize speed. Edits stageParameters.
   randomizeSpeed(randomTime, TotalTime, StartRestTime);
 
   // Randomizes probe trials. Edits stageParameters. 

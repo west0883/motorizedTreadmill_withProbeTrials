@@ -40,4 +40,5 @@ class WarningTone
 
         struct ToneParameters toneParameters; 
         void PlayWarningTone(ToneParameters toneParameters); 
+        struct ToneParameters CalculateToneParameters(int currentStage);
 };
