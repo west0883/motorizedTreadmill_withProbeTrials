@@ -43,8 +43,11 @@ struct MouseRunner::StageParameters stageParameters[30];
 // Initialize variable that will hold warning tone parameters.
 struct WarningTone::ToneParameters toneParameters[1];
 
-// Calculate the "working" time you can use for possible stages; Subtract the max stage time becuase the last stage added can go over the timeWorking limit. 
-uint32_t timeWorking = TotalTime - StartRestTime - MinEndRestTime - MaxStageTime * 1000;
+// Make a flag for if probe trials should be used.
+bool useProbeTrials = false;
+
+// Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
+double probability = 0.05; 
 
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
 int activityTag = 0;
@@ -74,7 +77,6 @@ static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), mot
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.println(timeWorking);
   pinMode(tonePin, OUTPUT);
 
   struct time_outputs randomTime = randomizeTime();
@@ -82,7 +84,10 @@ void setup(void)
   // Randomize speed. Edits stageParameters (with pointers) 
   randomizeSpeed(randomTime, TotalTime, StartRestTime);
 
-  // Report total number of stagesf
+  // Randomizes probe trials. Edits stageParameters. 
+  probeTrials(useProbeTrials, randomTime.count, probability);
+
+  // Report total number of stages
   Serial.print("Total number of stages: ");
   Serial.println(randomTime.count);
 

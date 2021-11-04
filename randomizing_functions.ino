@@ -11,6 +11,9 @@ struct time_outputs randomizeTime(void)
   // Initialize the variable you'll use to keep track of how much of the working time has been used.
   uint32_t cumulativeTime = 0;
 
+  // Calculate the "working" time you can use for possible stages; Subtract the max stage time becuase the last stage added can go over the timeWorking limit. 
+  uint32_t timeWorking = TotalTime - StartRestTime - MinEndRestTime - MaxStageTime * 1000;
+
   //Initialize counter for putting into stageParameters; Start at 1 (instead of 0) because first position will be the initial rest
   int count = 1;
 
@@ -40,6 +43,15 @@ struct time_outputs randomizeTime(void)
     count = count + 1;
   }
 
+   // Calculate the end resting time (will be the minimum rest time plus anything from the division of stages that was left over);
+  uint32_t EndRestTime = TotalTime - StartRestTime - cumulativeTime;
+ 
+  // Set up end rest parameters
+  stageParameters[0].duration = StartRestTime;
+
+  // Set up end rest duration
+  stageParameters[count].duration = EndRestTime;
+  
   struct time_outputs result = {
     .cumulativeTime = cumulativeTime,
     .count = count
@@ -65,40 +77,54 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
     stageParameters[i].speed = allSpeeds[j];
   }
   
-  // Calculate the end resting time (will be the minimum rest time plus anything from the division of stages that was left over);
-  uint32_t EndRestTime = TotalTime - StartRestTime - randomTime.cumulativeTime;
- 
-  // Set up start rest parameters
-  stageParameters[0].duration = StartRestTime;
+  // Set start rest speed.
   stageParameters[0].speed = 0;
   
-  // Set end rest parameters
-  stageParameters[randomTime.count].duration = EndRestTime;
+  // Set end rest speed.
   stageParameters[randomTime.count].speed = 0;
 
 }
 
 // Assign probe trials. Input total number of trials and the probability of any kind of probe trial happening 
-void probeTrials(int count, double probability){
+void probeTrials(bool useProbeTrials, int count, double probability){
+  
   // Don't use the 0 index or the last entry of stageParameters, because those will be the first and last rests.
   for (int i = 1; i < count; i++){
-     
+
+     // Default the probe in stageParameters to be "None" 
+     stageParameters[i].probe = MouseRunner::Probe::None;
+
+     // If the user wants to use probe trials, go about changing them to probe
+     if (useProbeTrials) {
      
      // Get a random number from 1 to 100
      randomSeed(analogRead(A5));
-     double prob = random(1, 101)/100;
+     double prob1 = random(1, 101)/100;
 
      // If that number is below the entered probability, this will be a probe trial. 
 
-     if (prob < probability){
+     if (prob1 < probability){
 
-        stageParameters[i].probe = MouseRunner::Probe::NoWarning;
-        stageParameters[i].probe = MouseRunner::Probe::NoChange;
-     }
-     else {
-       
-     }
-     
-     
+         // Now, get a random number either 0 or 1
+         randomSeed(analogRead(A5));
+         int prob2 = random(0, 2);
+
+         switch (prob2){
+            
+            case 0: 
+ 
+              stageParameters[i].probe = MouseRunner::Probe::NoWarning;
+
+              break;
+            
+            case 1:
+
+              stageParameters[i].probe = MouseRunner::Probe::NoChange;
+              
+              break;
+           
+         }
+     } 
+    }
   }
 }
