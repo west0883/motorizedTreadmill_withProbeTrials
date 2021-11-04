@@ -12,10 +12,7 @@ Motor::Motor(void):
     pinMode(51, OUTPUT);
     pinMode(53, OUTPUT);
     pinMode(Motor::SleepPowerPin, OUTPUT);
- //   pinMode(Motor::M1pin, OUTPUT);
-
     digitalWrite(Motor::SleepPowerPin, LOW);
- //   digitalWrite(Motor::M1pin, HIGH);
     
     this->stepperMotor.setAcceleration(Motor::StepperAccell);
     this->stepperMotor.setCurrentPosition(0);
