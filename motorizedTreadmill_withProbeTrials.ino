@@ -21,7 +21,7 @@ uint32_t StartTime;
 uint32_t CurrentTime;
 
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
-static constexpr int allSpeeds[] ={0, 0, 800, 1600};
+static constexpr int allSpeeds[] ={0, 0, 1600, 2400, 3200};
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 10000;
@@ -30,19 +30,19 @@ uint32_t StartRestTime = 10000;
 uint32_t MinEndRestTime = 10000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime =930000;
+uint32_t TotalTime =330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
-uint32_t WarnTime = 5000;
+uint32_t WarnTime = 3000;
 
 // The amount of minimum time you want per stage (includeing the warning time and posible transition times). (IN SECONDS)
 int MinStageTime = 15;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
-int MaxStageTime = 25;
+int MaxStageTime = 30;
 
 // Initialize the time stage parameters array with a lot of possible entries
-struct MouseRunner::StageParameters stageParameters[70];
+struct MouseRunner::StageParameters stageParameters[30];
 
 // Initialize variable that will hold warning tone parameters.
 struct  WarningTone::ToneParameters toneParameters[1];

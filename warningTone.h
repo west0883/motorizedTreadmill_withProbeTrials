@@ -22,10 +22,10 @@ class WarningTone
         int toneCase = 0; 
 
         // Initialize and set duration of each segment of the tone (in ms).
-        uint32_t toneDuration = 330;
+        uint32_t toneDuration = 310;
 
          // Initialize and set time between tones (in ms).
-        uint32_t toneBuffer = 3;
+        uint32_t toneBuffer = 23;
 
     public:
         // Make a flag that says when warning period has started. Initiate as false.         
