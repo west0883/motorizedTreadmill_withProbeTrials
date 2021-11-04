@@ -41,10 +41,7 @@ int MaxStageTime = 30;
 struct MouseRunner::StageParameters stageParameters[30];
 
 // Initialize variable that will hold warning tone parameters.
-struct  WarningTone::ToneParameters toneParameters[1];
-
-// Initialize the variable that will hold the end time.
-
+struct WarningTone::ToneParameters toneParameters[1];
 
 // Calculate the "working" time you can use for possible stages; Subtract the max stage time becuase the last stage added can go over the timeWorking limit. 
 uint32_t timeWorking = TotalTime - StartRestTime - MinEndRestTime - MaxStageTime * 1000;
@@ -85,7 +82,7 @@ void setup(void)
   // Randomize speed. Edits stageParameters (with pointers) 
   randomizeSpeed(randomTime, TotalTime, StartRestTime);
 
-  // Report total number of stages
+  // Report total number of stagesf
   Serial.print("Total number of stages: ");
   Serial.println(randomTime.count);
 

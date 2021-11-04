@@ -3,14 +3,13 @@
 #include "tone.h"
 
 #define TONE_IRQ    TC3_IRQn
-
 static bool timerConfigured = false;
 static bool pinState = false;
 static Tc *timer = TC1;
 static uint32_t channel = 0;
     
 static volatile int32_t toggleCount;
-//static uint32_t tonePin;
+
 
 // timer ISR  TC1 ch 0
 void TC3_Handler(void)

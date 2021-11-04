@@ -77,3 +77,28 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
   stageParameters[randomTime.count].speed = 0;
 
 }
+
+// Assign probe trials. Input total number of trials and the probability of any kind of probe trial happening 
+void probeTrials(int count, double probability){
+  // Don't use the 0 index or the last entry of stageParameters, because those will be the first and last rests.
+  for (int i = 1; i < count; i++){
+     
+     
+     // Get a random number from 1 to 100
+     randomSeed(analogRead(A5));
+     double prob = random(1, 101)/100;
+
+     // If that number is below the entered probability, this will be a probe trial. 
+
+     if (prob < probability){
+
+        stageParameters[i].probe = MouseRunner::Probe::NoWarning;
+        stageParameters[i].probe = MouseRunner::Probe::NoChange;
+     }
+     else {
+       
+     }
+     
+     
+  }
+}

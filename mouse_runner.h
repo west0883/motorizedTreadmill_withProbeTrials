@@ -10,6 +10,13 @@ class MouseRunner
 {
     public:
 
+        enum class Probe 
+        {
+          None,
+          NoWarning,
+          NoChange,
+        };
+        
         struct StageParameters
         {
             
@@ -18,6 +25,8 @@ class MouseRunner
 
             // How fast the motor will run this interval
             float speed;
+
+            enum Probe probe; 
         };
 
     private:
