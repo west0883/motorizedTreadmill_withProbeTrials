@@ -67,4 +67,5 @@ struct Probe_Messages getProbeMessages(Probe probeName) {
         return probe_messages; 
       break; 
     }
+    }
 }
