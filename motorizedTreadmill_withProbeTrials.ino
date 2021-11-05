@@ -12,8 +12,6 @@
 #include "warningTone.h"
 #include "randomizing_functions.h"
 
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
-
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
 static constexpr int allSpeeds[] ={0, 0, 0, 1600, 2400, 3200};
 
@@ -64,6 +62,7 @@ int activityTag = 0;
  *  11 = tone: decellerating
  *  12 = tone: maintaining
  */ 
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 // Predefine your times (do it here, and with "static" so they're accessible throughout program).
 static uint32_t globalStartTime; 
