@@ -7,6 +7,8 @@
 // Compiler instructions
 #pragma once
 #include "tone.h" 
+#include "probe.h"
+
 // Make a class to hold states the function should care about
 class WarningTone
 {

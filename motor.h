@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #include <AccelStepper.h>
+#include "probe.h"
 
 class Motor
 {

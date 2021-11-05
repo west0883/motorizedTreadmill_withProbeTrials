@@ -3,6 +3,7 @@
 // 3/9/21
 // Be sure you have the AccelStepper library installed & have included the Arduino Due as a possible board.
 
+// Should write a "report" function, so "activity tag" doesn't have to be global and you don't have to re-write the reporting lines over and over. Will be used in motor and warning tone.
 #include <stdint.h>
 #include <AccelStepper.h>
 
@@ -11,6 +12,7 @@
 #include "tone.h" 
 #include "warningTone.h"
 #include "randomizing_functions.h"
+#include "probe.h"
 
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
 static constexpr int allSpeeds[] ={0, 0, 0, 1600, 2400, 3200};

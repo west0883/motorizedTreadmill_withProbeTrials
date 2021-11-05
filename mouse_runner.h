@@ -85,9 +85,8 @@ class MouseRunner
     public:
         MouseRunner(const struct StageParameters *stageParameters, int stageTotal, Motor &motor, WarningTone &warningTone);
 
-       // WarningTone::ToneParameters CalculateToneParameters(void);
         void Start(void);
         void Stop(void);
-        
         void RunOnce(void);
+        
 };
