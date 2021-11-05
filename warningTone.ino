@@ -3,6 +3,17 @@
 
 // need to switch the playTonesStarted back to false at some point 
 
+WarningTone::WarningTone(bool useMaintaining):
+    useMaintaining(useMaintaining)
+{
+    // Initialize output pin.
+    pinMode(tonePin, OUTPUT);
+
+    // Initialize variable that will hold warning tone parameters.
+    struct WarningTone::ToneParameters toneParameters[1];
+
+}
+
 void WarningTone::PlayWarningTone(WarningTone::ToneParameters new_toneParameters) 
 {
     //// Find a starting time for saying when multiple-beep warnings should stop and start.
@@ -125,7 +136,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
             // Reassign activity reporting tag.
             activityTag = 8;
            //Announce warning label
-           CurrentTime=millis()-StartTime; 
+           CurrentTime=millis()-globalStartTime; 
            Serial.print(String(CurrentTime)); 
            Serial.print(", "); 
            Serial.print(stageParameters[currentStage].speed);
@@ -149,7 +160,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 10;
-           CurrentTime=millis()-StartTime; 
+           CurrentTime=millis()-globalStartTime; 
            Serial.print(String(CurrentTime)); 
            Serial.print(", "); 
            Serial.print(stageParameters[currentStage].speed);
@@ -177,7 +188,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 9;
-           CurrentTime=millis()-StartTime; 
+           CurrentTime=millis()-globalStartTime; 
            Serial.print(String(CurrentTime)); 
            Serial.print(", "); 
            Serial.print(stageParameters[currentStage].speed);
@@ -199,7 +210,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 11;
-           CurrentTime=millis()-StartTime; 
+           CurrentTime=millis()-globalStartTime; 
            Serial.print(String(CurrentTime)); 
            Serial.print(", "); 
            Serial.print(stageParameters[currentStage].speed);
@@ -222,10 +233,11 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
    else {
        // Motor will continue at current speed
 
+
        //Announce warning label
        // Reassign activity reporting tag.
        activityTag = 12;
-       CurrentTime=millis()-StartTime; 
+       CurrentTime=millis()-globalStartTime; 
        Serial.print(String(CurrentTime)); 
        Serial.print(", "); 
        Serial.print(stageParameters[currentStage].speed);

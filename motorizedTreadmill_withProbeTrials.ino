@@ -14,10 +14,6 @@
 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
-// Initialize some time variables. 
-uint32_t StartTime;
-uint32_t CurrentTime;
-
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
 static constexpr int allSpeeds[] ={0, 0, 0, 1600, 2400, 3200};
 
@@ -42,20 +38,18 @@ int MaxStageTime = 30;
 // Initialize the time stage parameters array with a lot of possible entries
 struct MouseRunner::StageParameters stageParameters[30];
 
-// Initialize variable that will hold warning tone parameters.
-struct WarningTone::ToneParameters toneParameters[1];
-
 // Make a flag for if maintaining tones should be used; 
-bool useMaintaining = false; 
+static const bool useMaintaining = false; 
 
 // Make a flag for if probe trials should be used.
-bool useProbeTrials = false;
+static const bool useProbeTrials = false;
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
-double probability = 0.05; 
+static const double probability = 0.05; 
 
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
 int activityTag = 0;
+
 /** 
  *  1 = motor accelerating
  *  2 = motor decelerating
@@ -71,17 +65,18 @@ int activityTag = 0;
  *  12 = tone: maintaining
  */ 
 
+// Predefine your times (do it here, and with "static" so they're accessible throughout program).
+static uint32_t globalStartTime; 
+static uint32_t CurrentTime;
+
 // Declare your objects.
 static Motor motor;
-static WarningTone warningTone;
+static WarningTone warningTone(useMaintaining);
 static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), motor, warningTone);
 
 void setup(void)
 {
-  Serial.begin(115200);
-  pinMode(tonePin, OUTPUT);
-
-  // Randomize time Edits stageParameters.
+  // Randomize time. Edits stageParameters.
   struct time_outputs randomTime = randomizeTime();
 
   // Randomize speed. Edits stageParameters.
@@ -90,6 +85,8 @@ void setup(void)
   // Randomizes probe trials. Edits stageParameters. 
   probeTrials(useProbeTrials, randomTime.count, probability);
 
+  Serial.begin(115200);
+  
   // Report total number of stages
   Serial.print("Total number of stages: ");
   Serial.println(randomTime.count);
@@ -104,8 +101,6 @@ void setup(void)
     Serial.println(stageParameters[i].duration);
   }
   
-  pinMode(A0, INPUT);  // for the trigger
-  Serial.println("Waiting for Trigger"); 
 }
 
 void loop(void)

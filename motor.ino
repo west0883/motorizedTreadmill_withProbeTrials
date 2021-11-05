@@ -39,7 +39,7 @@ void Motor::Start(float speed)
         // Reassign activity reporting tag.
         activityTag = 1;
         
-        CurrentTime=millis()-StartTime; 
+        CurrentTime=millis()-globalStartTime; 
         Serial.print(String(CurrentTime)); 
         Serial.print(", "); 
         Serial.print(String(this->targetSpeed));
@@ -62,7 +62,7 @@ void Motor::Start(float speed)
         // Reassign activity reporting tag.
         activityTag = 2;
         
-        CurrentTime=millis()-StartTime; 
+        CurrentTime=millis()-globalStartTime; 
         Serial.print(String(CurrentTime)); 
         Serial.print(", "); 
         Serial.print(String(this->targetSpeed));
@@ -79,7 +79,7 @@ void Motor::Start(float speed)
     {
         // Reassign activity reporting tag.
         activityTag = 3;
-        CurrentTime=millis()-StartTime; 
+        CurrentTime=millis()-globalStartTime; 
         Serial.print(String(CurrentTime)); 
         Serial.print(", "); 
         Serial.print(String(this->targetSpeed));
@@ -108,7 +108,7 @@ void Motor::Stop(void)
     this->targetSpeed = 0;
     // Reassign activity reporting tag.
     activityTag = 4;
-    CurrentTime=millis()-StartTime; 
+    CurrentTime=millis()-globalStartTime; 
     Serial.print(String(CurrentTime)); 
     Serial.print(", "); 
     Serial.print(String(this->targetSpeed));
@@ -147,7 +147,7 @@ void Motor::RunOnce(void)
             {     
                   // Reassign activity reporting tag.
                   activityTag = 5;
-                  CurrentTime=millis()-StartTime; 
+                  CurrentTime=millis()-globalStartTime; 
                   Serial.print(String(CurrentTime)); 
                   Serial.print(", "); 
                   Serial.print(String(this->targetSpeed));
@@ -173,7 +173,7 @@ void Motor::RunOnce(void)
             {
                 // Reassign activity reporting tag.
                 activityTag = 6;
-                CurrentTime=millis()-StartTime; 
+                CurrentTime=millis()-globalStartTime; 
                 Serial.print(String(CurrentTime)); 
                 Serial.print(", "); 
                 Serial.print(String(this->targetSpeed));
@@ -197,7 +197,7 @@ void Motor::RunOnce(void)
             {    
                 // Reassign activity reporting tag.
                 activityTag = 7;
-                CurrentTime=millis()-StartTime; 
+                CurrentTime=millis()-globalStartTime; 
                 Serial.print(String(CurrentTime)); 
                 Serial.print(", "); 
                 Serial.print(String(this->targetSpeed));

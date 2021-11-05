@@ -9,9 +9,19 @@
 #include "tone.h" 
 // Make a class to hold states the function should care about
 class WarningTone
-{        
-    private:
+{
+    public:
+         // Set up ToneParameter frequencies for each tone. Use a frequency of 0 if there should be a gap/pause. 
+         struct ToneParameters {
+            uint32_t frequency1;
+            uint32_t frequency2;
+            uint32_t frequency3;
+        };
 
+        // Make a flag that says when warning period has started. Initiate as false.         
+        bool playTonesStarted = false;
+        
+    private:
         // Initialize variable for keeping track of when warning time started (for calculating multi-beep warnings) 
         uint32_t toneStartTime;
         
@@ -27,16 +37,10 @@ class WarningTone
          // Initialize and set time between tones (in ms).
         uint32_t toneBuffer = 23;
 
-    public:
-        // Make a flag that says when warning period has started. Initiate as false.         
-        bool playTonesStarted = false; 
+        bool useMaintaining = false;
 
-         // Set up ToneParameter frequencies for each tone. Use a frequency of 0 if there should be a gap/pause. 
-         struct ToneParameters {
-            uint32_t frequency1;
-            uint32_t frequency2;
-            uint32_t frequency3;
-        };
+    public:
+        WarningTone(bool useMaintaining);
 
         struct ToneParameters toneParameters; 
         void PlayWarningTone(ToneParameters toneParameters); 

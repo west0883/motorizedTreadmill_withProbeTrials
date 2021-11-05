@@ -18,7 +18,8 @@ MouseRunner::MouseRunner(const struct StageParameters *stageParameters, int stag
     motor(motor),
     warningTone(warningTone)
 {
-  
+  pinMode(A0, INPUT);  // for the trigger
+  Serial.println("Waiting for Trigger");
 }
 
 /**
@@ -109,7 +110,7 @@ void MouseRunner::RunOnce(void)
          //if (digitalRead(A0) == HIGH)
           //{
                 Serial.println("Starting Mouse Runner");
-
+                globalStartTime = millis();
                 this->Start();
   //       }
             

@@ -10,6 +10,8 @@ class MouseRunner
 {
     public:
 
+        uint32_t globalStartTime; 
+        
         enum class Probe 
         {
           None,
