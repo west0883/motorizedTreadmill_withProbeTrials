@@ -8,7 +8,7 @@ void probeTrials(bool useProbeTrials, int count, double probability){
   for (int i = 1; i < count; i++){
 
      // Default the probe in stageParameters to be "None" 
-     stageParameters[i].probe = MouseRunner::Probe::None;
+     stageParameters[i].probe = Probe::None;
 
      // If the user wants to use probe trials, go about changing them to probe
      if (useProbeTrials) {
@@ -29,13 +29,13 @@ void probeTrials(bool useProbeTrials, int count, double probability){
             
             case 0: 
  
-              stageParameters[i].probe = MouseRunner::Probe::NoWarning;
+              stageParameters[i].probe = Probe::NoWarning;
 
               break;
             
             case 1:
 
-              stageParameters[i].probe = MouseRunner::Probe::NoChange;
+              stageParameters[i].probe = Probe::NoChange;
               
               break;
            
@@ -43,4 +43,28 @@ void probeTrials(bool useProbeTrials, int count, double probability){
      } 
     }
   }
+}
+
+// Both of these will be reported at the motor's time.
+struct Probe_Messages getProbeMessages(Probe probeName) {
+
+  struct Probe_Messages probe_messages;
+  
+  switch (probeName){
+    
+    case Probe::NoWarning: 
+    {
+        probe_messages.activity_tag = 13;
+        probe_messages.probe_string = "Probe: no warning tone."; 
+        return probe_messages; 
+      break; 
+    }
+
+    case Probe::NoChange: 
+    {
+        probe_messages.activity_tag = 14;
+        probe_messages.probe_string = "Probe: no change in motor."; 
+        return probe_messages; 
+      break; 
+    }
 }

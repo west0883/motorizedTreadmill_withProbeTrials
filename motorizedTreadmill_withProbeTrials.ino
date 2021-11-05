@@ -7,12 +7,13 @@
 #include <stdint.h>
 #include <AccelStepper.h>
 
-#include "motor.h"
-#include "mouse_runner.h"
-#include "tone.h" 
-#include "warningTone.h"
 #include "randomizing_functions.h"
 #include "probe.h"
+#include "motor.h"
+#include "tone.h" 
+#include "warningTone.h"
+#include "mouse_runner.h"
+
 
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
 static constexpr int allSpeeds[] ={0, 0, 0, 1600, 2400, 3200};
@@ -63,6 +64,8 @@ int activityTag = 0;
  *  10 = tone: accelerating
  *  11 = tone: decellerating
  *  12 = tone: maintaining
+ *  13 = probe: no warning.
+ *  14 = probe: no change.
  */ 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 

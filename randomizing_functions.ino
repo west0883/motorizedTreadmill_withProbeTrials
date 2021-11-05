@@ -3,8 +3,8 @@
 // Helper functions run at setup. 
 
 //Writes a function that randomizes the time spent in each stage. 
-struct time_outputs randomizeTime(void)
-{
+struct time_outputs randomizeTime(void) 
+  {
   // Create a random seed for random sequence generator.
   randomSeed(analogRead(A5));
 

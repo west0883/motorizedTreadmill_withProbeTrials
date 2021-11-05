@@ -3,8 +3,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "probe.h"
 #include "warningTone.h"
 #include "motor.h"
+
 
 class MouseRunner
 {
@@ -12,12 +14,12 @@ class MouseRunner
 
         uint32_t globalStartTime; 
         
-        enum class Probe 
-        {
-          None,
-          NoWarning,
-          NoChange,
-        };
+//        enum class Probe 
+//        {
+//          None,
+//          NoWarning,
+//          NoChange,
+//        };
         
         struct StageParameters
         {
