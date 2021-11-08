@@ -89,7 +89,7 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
           
           case ProbeSubtype::Warning:
           {
-               probe_messages.activity_tag = 16;
+               probe_messages.activity_tag = 15;
                probe_messages.probe_string = "Warning cue: probe, no change in motor."; 
                return probe_messages; 
             break; 
