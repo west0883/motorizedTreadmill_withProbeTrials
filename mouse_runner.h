@@ -14,13 +14,6 @@ class MouseRunner
 
         uint32_t globalStartTime; 
         
-//        enum class Probe 
-//        {
-//          None,
-//          NoWarning,
-//          NoChange,
-//        };
-        
         struct StageParameters
         {
             

@@ -36,6 +36,9 @@ void probeTrials(bool useProbeTrials, int count, double probability){
             case 1:
 
               stageParameters[i].probe = Probe::NoChange;
+
+              // Edit next stage parameter so the motor doesn't change AND the future warning tone calculations stay correct. 
+              stageParameters[i + 1].speed = stageParameters[i].speed;
               
               break;
            
@@ -46,26 +49,62 @@ void probeTrials(bool useProbeTrials, int count, double probability){
 }
 
 // Both of these will be reported at the motor's time.
-struct Probe_Messages getProbeMessages(Probe probeName) {
+struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subtype) {
 
   struct Probe_Messages probe_messages;
   
   switch (probeName){
     
     case Probe::NoWarning: 
-    {
-        probe_messages.activity_tag = 13;
-        probe_messages.probe_string = "Probe: no warning tone."; 
-        return probe_messages; 
-      break; 
+    {    
+        switch (probe_subtype){
+          
+          case ProbeSubtype::Warning:
+          {
+              probe_messages.activity_tag = 13;
+              probe_messages.probe_string = "Warning cue: probe, no warning tone."; 
+              probe_messages.toneParameters = {
+                  .frequency1 = 0,
+                  .frequency2 = 0,
+                  .frequency3 = 0
+              };
+              
+              return probe_messages; 
+            break; 
+          }
+          
+          case ProbeSubtype::Motor:
+          {
+               probe_messages.activity_tag = 14;
+               probe_messages.probe_string = "Motor: probe, no warning tone."; 
+               return probe_messages; 
+            break;
+          } 
+        }       
     }
 
     case Probe::NoChange: 
     {
-        probe_messages.activity_tag = 14;
-        probe_messages.probe_string = "Probe: no change in motor."; 
-        return probe_messages; 
-      break; 
+       switch (probe_subtype){
+          
+          case ProbeSubtype::Warning:
+          {
+               probe_messages.activity_tag = 16;
+               probe_messages.probe_string = "Warning cue: probe, no change in motor."; 
+               return probe_messages; 
+            break; 
+          }
+
+         case ProbeSubtype::Motor:
+         {
+             probe_messages.activity_tag = 16;
+             probe_messages.probe_string = "Motor: probe, no change in motor."; 
+             return probe_messages; 
+           break; 
+         }
+      }
     }
   }
 }
+
+  

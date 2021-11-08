@@ -122,6 +122,23 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
 {  
   // 
    int nextStage = currentStage +1 ; 
+
+   // If there are probe trials, and this is a probe trial, 
+   if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoWarning){
+
+    
+      // No tones.
+      WarningTone::ToneParameters result = {
+          .frequency1 = 0,
+          .frequency2 = 0,
+          .frequency3 = 0
+      };
+      return result;    
+    
+   }
+
+
+   // Else, 
    
    // Find difference between next speed and current speed. 
    float speedDifference = stageParameters[nextStage].speed - stageParameters[currentStage].speed;
