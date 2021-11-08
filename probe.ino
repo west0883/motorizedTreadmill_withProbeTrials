@@ -37,12 +37,12 @@ void probeTrials(bool useProbeTrials, int count, double probability){
             case 1:
 
               stageParameters[i].probe = Probe::NoChange;
-
+       
               // Edit next stage parameter so the motor doesn't change AND the future warning tone calculations stay correct. 
+              // THIS DOESN"T WORK RIGHT NOW BECAUSE YOU'LL CHANGE THE WARNING TONE FOR THIS STAGE TO ALWAYS BE MAINTAINING
               stageParameters[i + 1].speed = stageParameters[i].speed;
               
               break;
-
          }
       } 
     }
