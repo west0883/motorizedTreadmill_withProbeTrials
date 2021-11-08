@@ -4,8 +4,9 @@
 // Assign probe trials. Input total number of trials and the probability of any kind of probe trial happening 
 void probeTrials(bool useProbeTrials, int count, double probability){
   
-  // Don't use the 0 index or the last entry of stageParameters, because those will be the first and last rests.
-  for (int i = 1; i < count; i++){
+  // Don't use the 0 index or the last entry of stageParameters, because those will be the first and last rests. 
+  // Also don't use the second to last, because a no change in motor requires changing the next stage.
+  for (int i = 1; i < count - 1; i++){
 
      // Default the probe in stageParameters to be "None" 
      stageParameters[i].probe = Probe::None;
@@ -41,9 +42,9 @@ void probeTrials(bool useProbeTrials, int count, double probability){
               stageParameters[i + 1].speed = stageParameters[i].speed;
               
               break;
-           
+
          }
-     } 
+      } 
     }
   }
 }
