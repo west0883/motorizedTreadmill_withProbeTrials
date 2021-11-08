@@ -38,15 +38,10 @@ void Motor::Start(float speed)
     {   
         // Reassign activity reporting tag.
         activityTag = 1;
-        
-        CurrentTime=millis()-globalStartTime; 
-        Serial.print(String(CurrentTime)); 
-        Serial.print(", "); 
-        Serial.print(String(this->targetSpeed));
-        Serial.print(", "); 
-        Serial.print(activityTag); 
-        Serial.print(", "); 
-        Serial.println("Motor: accelerating"); 
+
+        // Report
+        String message = "Motor: accelerating"; 
+        Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
 
@@ -61,37 +56,27 @@ void Motor::Start(float speed)
     {
         // Reassign activity reporting tag.
         activityTag = 2;
-        
-        CurrentTime=millis()-globalStartTime; 
-        Serial.print(String(CurrentTime)); 
-        Serial.print(", "); 
-        Serial.print(String(this->targetSpeed));
-        Serial.print(", "); 
-        Serial.print(activityTag); 
-        Serial.print(", "); 
-        Serial.println("Motor: decelerating");
-        this->stepperMotor.stop();
 
+        // Report
+        String message = "Motor: decelerating"; 
+        Report(this->targetSpeed, activityTag, message);
+        
+        this->stepperMotor.stop();
         this->state = State::Decelerating;
     }
+    
     // Else, if speed is staying the same
     else
     {
         // Reassign activity reporting tag.
         activityTag = 3;
-        CurrentTime=millis()-globalStartTime; 
-        Serial.print(String(CurrentTime)); 
-        Serial.print(", "); 
-        Serial.print(String(this->targetSpeed));
-        Serial.print(", "); 
-        Serial.print(activityTag); 
-        Serial.print(", "); 
-        Serial.println("Motor: maintaining current speed"); 
+       
+        // Report
+        String message = "Motor: maintaining current speed "; 
+        Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
-
         this->stepperMotor.move(Motor::nSteps);
-
         this->state = State:: Running;
     }
 }
@@ -108,15 +93,11 @@ void Motor::Stop(void)
     this->targetSpeed = 0;
     // Reassign activity reporting tag.
     activityTag = 4;
-    CurrentTime=millis()-globalStartTime; 
-    Serial.print(String(CurrentTime)); 
-    Serial.print(", "); 
-    Serial.print(String(this->targetSpeed));
-    Serial.print(", "); 
-    Serial.print(activityTag); 
-    Serial.print(", "); 
-    Serial.println("Motor: stopping");
 
+    // Report
+    String message = "Motor: stopping "; 
+    Report(this->targetSpeed, activityTag, message);
+    
     // Stop our motor
     this->stepperMotor.stop();
   
@@ -145,16 +126,12 @@ void Motor::RunOnce(void)
             // When motor has reached final position
             if (this->stepperMotor.distanceToGo() == 0)
             {     
-                  // Reassign activity reporting tag.
-                  activityTag = 5;
-                  CurrentTime=millis()-globalStartTime; 
-                  Serial.print(String(CurrentTime)); 
-                  Serial.print(", "); 
-                  Serial.print(String(this->targetSpeed));
-                  Serial.print(", "); 
-                  Serial.print(activityTag); 
-                  Serial.print(", "); 
-                  Serial.println("Motor: finished stopping");
+                // Reassign activity reporting tag.
+                activityTag = 5;
+  
+                // Report
+                String message = "Motor: finished stopping "; 
+                Report(this->targetSpeed, activityTag, message);
                 
                 // Turn off the motor's power
                 digitalWrite(Motor::SleepPowerPin, LOW);
@@ -173,14 +150,10 @@ void Motor::RunOnce(void)
             {
                 // Reassign activity reporting tag.
                 activityTag = 6;
-                CurrentTime=millis()-globalStartTime; 
-                Serial.print(String(CurrentTime)); 
-                Serial.print(", "); 
-                Serial.print(String(this->targetSpeed));
-                Serial.print(", "); 
-                Serial.print(activityTag); 
-                Serial.print(", "); 
-                Serial.println("Motor: reached faster speed");      
+             
+                // Report
+                String message = "Motor: reached faster speed"; 
+                Report(this->targetSpeed, activityTag, message);
                            
                 // the AccelStepper library doesn't need to reset the set speed after accelerating, like decelerating does
 
@@ -197,19 +170,13 @@ void Motor::RunOnce(void)
             {    
                 // Reassign activity reporting tag.
                 activityTag = 7;
-                CurrentTime=millis()-globalStartTime; 
-                Serial.print(String(CurrentTime)); 
-                Serial.print(", "); 
-                Serial.print(String(this->targetSpeed));
-                Serial.print(", "); 
-                Serial.print(activityTag); 
-                Serial.print(", "); 
-                Serial.println("Motor: reached slower speed");      
-                           
+
+                // Report
+                String message = "Motor: reached slower speed "; 
+                Report(this->targetSpeed, activityTag, message);
+                
                 this->stepperMotor.setMaxSpeed(this->targetSpeed);
-
                 this->stepperMotor.move(Motor::nSteps);
-
                 this->state = State::Running;
             }
 

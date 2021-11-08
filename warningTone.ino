@@ -135,15 +135,10 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
       if (stageParameters[currentStage].speed == 0) {
             // Reassign activity reporting tag.
             activityTag = 8;
-           //Announce warning label
-           CurrentTime=millis()-globalStartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: starting"); 
+          
+            // Report
+            String message = "Warning cue: starting "; 
+            Report(stageParameters[currentStage].speed, activityTag, message);
            
            // High pitch, long 
             WarningTone::ToneParameters result = {
@@ -160,14 +155,10 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 10;
-           CurrentTime=millis()-globalStartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: accelerating"); 
+
+           // Report
+           String message = "Warning cue: accelerating "; 
+           Report(stageParameters[currentStage].speed, activityTag, message);
            
            // low, blank, high (ascending pitches)
             WarningTone::ToneParameters result = {
@@ -188,17 +179,13 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 9;
-           CurrentTime=millis()-globalStartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: stopping"); 
-            
-            // Low pitch, 1 long
-            WarningTone::ToneParameters result = {
+
+           // Report
+           String message = "Warning cue: stopping"; 
+           Report(stageParameters[currentStage].speed, activityTag, message);
+           
+           // Low pitch, 1 long
+           WarningTone::ToneParameters result = {
                 .frequency1 = 4000,
                 .frequency2 = 4000,
                 .frequency3 = 4000
@@ -210,14 +197,10 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
            //Announce warning label
            // Reassign activity reporting tag.
            activityTag = 11;
-           CurrentTime=millis()-globalStartTime; 
-           Serial.print(String(CurrentTime)); 
-           Serial.print(", "); 
-           Serial.print(stageParameters[currentStage].speed);
-           Serial.print(", "); 
-           Serial.print(activityTag); 
-           Serial.print(", "); 
-           Serial.println("Warning cue: decelerating"); 
+           
+           // Report
+           String message = "Warning cue: decelerating "; 
+           Report(stageParameters[currentStage].speed, activityTag, message);
            
             // high, blank, low (descending pitches)
             WarningTone::ToneParameters result = {
@@ -237,16 +220,13 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
        //Announce warning label
        // Reassign activity reporting tag.
        activityTag = 12;
-       CurrentTime=millis()-globalStartTime; 
-       Serial.print(String(CurrentTime)); 
-       Serial.print(", "); 
-       Serial.print(stageParameters[currentStage].speed);
-       Serial.print(", "); 
-       Serial.print(activityTag); 
-       Serial.print(", "); 
 
        if (useMaintaining){
-          Serial.println("Warning cue: maintaining"); 
+           
+          // Report
+          String message = "Warning cue: maintaining"; 
+          Report(stageParameters[currentStage].speed, activityTag, message);
+           
           // Mid, blank, mid
           WarningTone::ToneParameters result = {
                 .frequency1 = 7000,
@@ -256,8 +236,11 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
             return result;
        }
        else {
-          // For training, don't give a tone
-          Serial.println("Warning cue: maintaining, no tone given"); 
+
+          // Report
+          String message = "Warning cue: maintaining, no tone given "; 
+          Report(stageParameters[currentStage].speed, activityTag, message);
+           
            WarningTone::ToneParameters result = {
                 .frequency1 = 0,
                 .frequency2 = 0,
