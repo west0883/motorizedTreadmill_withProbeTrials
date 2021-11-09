@@ -51,7 +51,7 @@ void MouseRunner::Start(void)
 void MouseRunner::Stop(void)
 {
     // Stop our motor immediately
-    this->motor.Stop();
+    this->motor.Stop(this->stageParameters[this->currentStage - 1].probe);
     
     // Note we're done
     this->state = State::Done;
@@ -73,14 +73,15 @@ void MouseRunner::StartNextStage(void)
     if (this->stageParameters[this->currentStage].speed == 0) {
     
       // Stop motor
-      this->motor.Stop();            
+      this->motor.Stop(this->stageParameters[this->currentStage - 1].probe);            
            
     }
 
     // If the target speed is anything besides 0 (not rest)
     else {
         // Start the motor stage  
-        this->motor.Start(this->stageParameters[this->currentStage].speed, this->stageParameters[this->currentStage].probe);
+        // Give the motor the PREVIOUS stage's probe.
+        this->motor.Start(this->stageParameters[this->currentStage].speed, this->stageParameters[this->currentStage - 1].probe);
     }                           
 
     // Note when we started running

@@ -93,7 +93,7 @@ void Motor::Start(float speed, Probe probe)
  *
  * \return none
  */
-void Motor::Stop(void)
+void Motor::Stop(Probe probe)
 {
     this->targetSpeed = 0;
     // Reassign activity reporting tag.
@@ -137,7 +137,6 @@ void Motor::RunOnce(void)
   
                 // Report
                 String message = "Motor: finished stopping "; 
-                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                 
                 // Turn off the motor's power
@@ -160,7 +159,6 @@ void Motor::RunOnce(void)
              
                 // Report
                 String message = "Motor: reached faster speed"; 
-                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                            
                 // the AccelStepper library doesn't need to reset the set speed after accelerating, like decelerating does
@@ -181,7 +179,6 @@ void Motor::RunOnce(void)
 
                 // Report
                 String message = "Motor: reached slower speed "; 
-                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                 
                 this->stepperMotor.setMaxSpeed(this->targetSpeed);

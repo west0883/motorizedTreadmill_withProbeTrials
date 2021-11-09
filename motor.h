@@ -41,8 +41,9 @@ class Motor
     public:
         Motor(void);
 
+        // Give the function the previous stage's probe status.
         void Start(float speed, Probe probe);
-        void Stop(void);
+        void Stop(Probe probe);
         
         void RunOnce(void);
 };
