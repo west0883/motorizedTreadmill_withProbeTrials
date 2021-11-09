@@ -41,7 +41,7 @@ class Motor
     public:
         Motor(void);
 
-        void Start(float speed);
+        void Start(float speed, Probe probe);
         void Stop(void);
         
         void RunOnce(void);

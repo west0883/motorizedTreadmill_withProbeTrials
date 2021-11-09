@@ -1,4 +1,6 @@
 #include "motor.h"
+
+
 /**
  * \brief Creates a motor
  *
@@ -26,7 +28,7 @@ Motor::Motor(void):
  *
  * \return none
  */
-void Motor::Start(float speed)
+void Motor::Start(float speed, Probe probe)
 {
     this->targetSpeed = speed;
 

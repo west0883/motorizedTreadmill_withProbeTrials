@@ -190,7 +190,6 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
           // If next speed is 0, then give "stopping" cue  
           if (stageParameters[currentStage + 1].speed == 0) { 
     
-               //Announce warning label
                // Reassign activity reporting tag.
                activityTag = 9;
     
@@ -206,7 +205,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
           }
           // If next speed is not 0, then give "decelerating" cue.
           else {
-               //Announce warning label
+
                // Reassign activity reporting tag.
                activityTag = 11;
                
