@@ -124,5 +124,4 @@ void checkProbeMotor (int &activityTag, String &message, Probe probe)
     activityTag = probe_messages.activity_tag;
     message = probe_messages.probe_string;    
   }
-
 }

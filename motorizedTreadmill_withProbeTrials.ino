@@ -64,8 +64,10 @@ int activityTag = 0;
  *  10 = tone: accelerating
  *  11 = tone: decellerating
  *  12 = tone: maintaining
- *  13 = probe: no warning.
- *  14 = probe: no change.
+ *  13 = tone probe: no warning.
+ *  14 = motor probe: no warning.
+ *  15 = tone probe: no change.
+ *  16 = motor probe: no change.
  */ 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
@@ -103,8 +105,7 @@ void setup(void)
     Serial.print(stageParameters[i].speed);
     Serial.print(", ");     
     Serial.println(stageParameters[i].duration);
-  }
-  
+  }  
 }
 
 void loop(void)
