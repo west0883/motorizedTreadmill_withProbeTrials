@@ -16,13 +16,16 @@ class MouseRunner
         
         struct StageParameters
         {
-            
-            // How long we'll run the mouse for
+            // How long we'll run the mouse for in this stage.
             uint32_t duration;
 
-            // How fast the motor will run this interval
+            // How fast the motor will run during this stage.
             float speed;
 
+            // The difference between the current stage's speed and the speed of the next stage.
+            float speed_difference;
+
+            // A marker for if this stage is a probe trial & what kind.
             enum Probe probe; 
         };
 
