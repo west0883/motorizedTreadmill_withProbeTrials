@@ -16,8 +16,8 @@ WarningTone::WarningTone(bool useMaintaining):
 
 void WarningTone::PlayWarningTone(WarningTone::ToneParameters new_toneParameters) 
 {
-    //// Find a starting time for saying when multiple-beep warnings should stop and start.
- 
+    // Find a starting time for saying when multiple-beep warnings should stop and start.
+    
     this->toneParameters = new_toneParameters;    
     
     // If tones have never been called,
@@ -120,145 +120,157 @@ void WarningTone::PlayWarningTone(WarningTone::ToneParameters new_toneParameters
 // Write out code for calculating the tone parameters
 struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int currentStage)
 {  
-  // 
-   int nextStage = currentStage +1 ; 
 
+   WarningTone::ToneParameters result; 
+   String message; 
+   
    // If there are probe trials, and this is a probe trial, 
    if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoWarning){
+
+      // Indicate this is coming from the warning tone function.
+      ProbeSubtype probe_subtype = ProbeSubtype::Warning; 
     
       // Call correct probes
- 
-    
+      Probe_Messages probe_messages = getProbeMessages(stageParameters[currentStage].probe, probe_subtype);
+
+      // Report
+      Report(stageParameters[currentStage].speed, probe_messages.activity_tag, probe_messages.probe_string);
+
+      // Output the probe toneParameters
+      return probe_messages.toneParameters;    
    }
 
-   else if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoChange){
-     // Call correct probe reports, continue with normal warning tones
-   }
-
+   // If not that particular probe, calculate tone parameters. 
    else {
 
-   // First check value of stageParameters[currentStage].speed_difference, then check if current or next stage speed is 0
-  
-   // If stageParameters[currentStage].speed_difference is positve
-   if (stageParameters[currentStage].speed_difference > 0) {
-
-      // If current speed is 0, then give "starting" cue  
-      if (stageParameters[currentStage].speed == 0) {
-            // Reassign activity reporting tag.
-            activityTag = 8;
-          
-            // Report
-            String message = "Warning cue: starting "; 
-            Report(stageParameters[currentStage].speed, activityTag, message);
-           
-           // High pitch, long 
-            WarningTone::ToneParameters result = {
-                .frequency1 = 10000,
-                .frequency2 = 10000,
-                .frequency3 = 10000
-            };
-            return result;    
-      } 
-
-       // If curernt speed is not 0, then give "accelerating" cue.
-       else  {
-
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 10;
-
-           // Report
-           String message = "Warning cue: accelerating "; 
-           Report(stageParameters[currentStage].speed, activityTag, message);
-           
-           // low, blank, high (ascending pitches)
-            WarningTone::ToneParameters result = {
-                .frequency1 = 4000,
-                .frequency2 = 0,
-                .frequency3 = 10000
-            };
-            return result;
-        }
-   }
-
-   // Else if stageParameters[currentStage].speed_difference is negative
-   else if (stageParameters[currentStage].speed_difference < 0 ){
+       // First check value of stageParameters[currentStage].speed_difference, then check if current or next stage speed is 0
       
-      // If next speed is 0, then give "stopping" cue  
-      if (stageParameters[nextStage].speed == 0) { 
-
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 9;
-
-           // Report
-           String message = "Warning cue: stopping"; 
-           Report(stageParameters[currentStage].speed, activityTag, message);
-           
-           // Low pitch, 1 long
-           WarningTone::ToneParameters result = {
-                .frequency1 = 4000,
-                .frequency2 = 4000,
-                .frequency3 = 4000
-            };
-            return result;
-      }
-      // If next speed is not 0, then give "decelerating" cue.
-      else {
-           //Announce warning label
-           // Reassign activity reporting tag.
-           activityTag = 11;
-           
-           // Report
-           String message = "Warning cue: decelerating "; 
-           Report(stageParameters[currentStage].speed, activityTag, message);
-           
-            // high, blank, low (descending pitches)
-            WarningTone::ToneParameters result = {
-                .frequency1 = 10000,
-                .frequency2 = 0,
-                .frequency3 = 4000
-            };
-            return result;
-        }
-   }
-   
-   // Else (if stageParameters[currentStage].speed_difference is 0) 
-   else {
-       // Motor will continue at current speed
-
-
-       //Announce warning label
-       // Reassign activity reporting tag.
-       activityTag = 12;
-
-       if (useMaintaining){
-           
-          // Report
-          String message = "Warning cue: maintaining"; 
-          Report(stageParameters[currentStage].speed, activityTag, message);
-           
-          // Mid, blank, mid
-          WarningTone::ToneParameters result = {
-                .frequency1 = 7000,
-                .frequency2 = 0,
-                .frequency3 = 7000
-          };
-            return result;
+       // If stageParameters[currentStage].speed_difference is positve
+       if (stageParameters[currentStage].speed_difference > 0) {
+    
+          // If current speed is 0, then give "starting" cue  
+          if (stageParameters[currentStage].speed == 0) {
+                
+                // Reassign activity reporting tag.
+                activityTag = 8;
+              
+                // Report
+                message = "Warning cue: starting "; 
+               
+               // High pitch, long 
+                result = {
+                    .frequency1 = 10000,
+                    .frequency2 = 10000,
+                    .frequency3 = 10000
+                };
+          } 
+    
+           // If curernt speed is not 0, then give "accelerating" cue.
+           else  {
+    
+               //Announce warning label
+               // Reassign activity reporting tag.
+               activityTag = 10;
+    
+               // Report
+               message = "Warning cue: accelerating ";
+               
+               // low, blank, high (ascending pitches)
+               result = {
+                    .frequency1 = 4000,
+                    .frequency2 = 0,
+                    .frequency3 = 10000
+                };
+            }
        }
+    
+       // Else if stageParameters[currentStage].speed_difference is negative
+       else if (stageParameters[currentStage].speed_difference < 0 ){
+          
+          // If next speed is 0, then give "stopping" cue  
+          if (stageParameters[currentStage + 1].speed == 0) { 
+    
+               //Announce warning label
+               // Reassign activity reporting tag.
+               activityTag = 9;
+    
+               // Report
+               message = "Warning cue: stopping"; 
+               
+               // Low pitch, 1 long
+               result = {
+                    .frequency1 = 4000,
+                    .frequency2 = 4000,
+                    .frequency3 = 4000
+                };
+          }
+          // If next speed is not 0, then give "decelerating" cue.
+          else {
+               //Announce warning label
+               // Reassign activity reporting tag.
+               activityTag = 11;
+               
+               // Report
+               message = "Warning cue: decelerating "; 
+               
+               // high, blank, low (descending pitches)
+               result = {
+                    .frequency1 = 10000,
+                    .frequency2 = 0,
+                    .frequency3 = 4000
+                };
+            }
+       }
+       
+       // Else (if stageParameters[currentStage].speed_difference is 0) 
        else {
+           // Motor will continue at current speed
+    
+           // Reassign activity reporting tag.
+           activityTag = 12;
+    
+           if (useMaintaining){
+               
+              // Report
+              message = "Warning cue: maintaining"; 
+               
+              // Mid, blank, mid
+              result = {
+                    .frequency1 = 7000,
+                    .frequency2 = 0,
+                    .frequency3 = 7000
+              };
+           }
+           else {
+    
+              // Report
+              message = "Warning cue: maintaining, no tone given "; 
+             
+              result = {
+                    .frequency1 = 0,
+                    .frequency2 = 0,
+                    .frequency3 = 0
+              };
+            }
+         }
 
-          // Report
-          String message = "Warning cue: maintaining, no tone given "; 
-          Report(stageParameters[currentStage].speed, activityTag, message);
-           
-           WarningTone::ToneParameters result = {
-                .frequency1 = 0,
-                .frequency2 = 0,
-                .frequency3 = 0
-          };
-            return result;
+        // If this was the "no change" probe, overwrite the reporting messages  
+        if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoChange){
+      
+            // Indicate this is coming from the warning tone function.
+            ProbeSubtype probe_subtype = ProbeSubtype::Warning; 
+          
+            // Call correct probes
+            Probe_Messages probe_messages = getProbeMessages(stageParameters[currentStage].probe, probe_subtype);
+
+            // Reassign 
+            activityTag = probe_messages.activity_tag;
+
+            // Reassign 
+            message = probe_messages.probe_string;
         }
-   }
+
+        Report(stageParameters[currentStage].speed, activityTag, message);
+        return result; 
    }
 }
