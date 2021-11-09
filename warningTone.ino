@@ -136,14 +136,11 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
    }
 
    else {
-   
-   // Find difference between next speed and current speed. 
-   float speedDifference = stageParameters[nextStage].speed - stageParameters[currentStage].speed;
 
-   // First check value of speedDifference, then check if current or next stage speed is 0
+   // First check value of stageParameters[currentStage].speed_difference, then check if current or next stage speed is 0
   
-   // If speedDifference is positve
-   if (speedDifference > 0) {
+   // If stageParameters[currentStage].speed_difference is positve
+   if (stageParameters[currentStage].speed_difference > 0) {
 
       // If current speed is 0, then give "starting" cue  
       if (stageParameters[currentStage].speed == 0) {
@@ -184,8 +181,8 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
         }
    }
 
-   // Else if speedDifference is negative
-   else if (speedDifference < 0 ){
+   // Else if stageParameters[currentStage].speed_difference is negative
+   else if (stageParameters[currentStage].speed_difference < 0 ){
       
       // If next speed is 0, then give "stopping" cue  
       if (stageParameters[nextStage].speed == 0) { 
@@ -226,7 +223,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
         }
    }
    
-   // Else (if speedDifference is 0) 
+   // Else (if stageParameters[currentStage].speed_difference is 0) 
    else {
        // Motor will continue at current speed
 

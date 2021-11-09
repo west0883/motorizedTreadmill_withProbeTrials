@@ -41,6 +41,9 @@ void probeTrials(bool useProbeTrials, int count, double probability){
               // Edit next stage parameter so the motor doesn't change AND the future warning tone calculations stay correct. 
               // THIS DOESN"T WORK RIGHT NOW BECAUSE YOU'LL CHANGE THE WARNING TONE FOR THIS STAGE TO ALWAYS BE MAINTAINING
               stageParameters[i + 1].speed = stageParameters[i].speed;
+
+              // Set the new speed difference for the next stage so the next warning tone stays correct.
+              stageParameters[i + 1].speed_difference = stageParameters[i + 2].speed - stageParameters[i + 1].speed; 
               
               break;
          }

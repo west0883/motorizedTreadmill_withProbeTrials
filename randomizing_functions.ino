@@ -63,36 +63,43 @@ struct time_outputs randomizeTime(void)
 // Creates a function that randomizes the speed order
 static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t StartRestTime)
 {
-  // Creates a random seed for random sequence generator.
-  randomSeed(analogRead(A5));
-
-  // use the counter from above. Don't include "count", because that is the final rest period.  
-  // Don't include index "0" because that is the initial rest period. 
-  for (size_t i = 1; i < randomTime.count ; i++)
-  {
-    // Pick a random index within the speed array
-    size_t j = random(0, ARRAY_SIZE(allSpeeds));
-
-    // Place in parameter array
-    stageParameters[i].speed = allSpeeds[j];
-  }
+    // Creates a random seed for random sequence generator.
+    randomSeed(analogRead(A5));
   
-  // Set start rest speed.
-  stageParameters[0].speed = 0;
+    // Use the counter from above. Don't include "count", because that is the final rest period.  
+    // Don't include index "0" because that is the initial rest period. 
+    for (size_t i = 1; i < randomTime.count ; i++)
+    {
+        // Pick a random index within the speed array
+        size_t j = random(0, ARRAY_SIZE(allSpeeds));
+    
+        // Place in parameter array
+        stageParameters[i].speed = allSpeeds[j];
+    }
   
-  // Set end rest speed.
-  stageParameters[randomTime.count].speed = 0;
+    // Set start rest speed.
+    stageParameters[0].speed = 0;
+    
+    // Set end rest speed.
+    stageParameters[randomTime.count].speed = 0;
 
+    // Calculate the speed difference (for warning tone and easier use of probe trials).
+     for (size_t i = 1; i < randomTime.count ; i++)
+    {
+        // Place in parameter array
+        stageParameters[i].speed_difference = stageParameters[i + 1].speed - stageParameters[i].speed;
+    }
 }
 
 // A function that writes out what goes to the serial monitor.
-void Report(float targetSpeed, int activityTag, String message){
-  CurrentTime=millis()-globalStartTime; 
-  Serial.print(String(CurrentTime)); 
-  Serial.print(", "); 
-  Serial.print(String(targetSpeed));
-  Serial.print(", "); 
-  Serial.print(activityTag); 
-  Serial.print(", "); 
-  Serial.println(message); 
+void Report(float targetSpeed, int activityTag, String message)
+{
+    CurrentTime=millis()-globalStartTime; 
+    Serial.print(String(CurrentTime)); 
+    Serial.print(", "); 
+    Serial.print(String(targetSpeed));
+    Serial.print(", "); 
+    Serial.print(activityTag); 
+    Serial.print(", "); 
+    Serial.println(message); 
 }
