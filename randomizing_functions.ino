@@ -103,3 +103,31 @@ void Report(float targetSpeed, int activityTag, String message)
     Serial.print(", "); 
     Serial.println(message); 
 }
+
+void HeaderReport(int count)
+{
+   // Report total number of stages
+  Serial.print("Total number of stages: ");
+  Serial.println(count);
+
+  // report speeds and times HeaderReport(int randomTime.count); 
+  Serial.print("Speed, Time");
+  if (useProbeTrials){
+    Serial.print(", Probe type"); 
+  }
+  Serial.println();
+  
+  for (size_t i = 0; i <= count ; i++)
+  {
+    Serial.print(stageParameters[i].speed);
+    Serial.print(", ");     
+    Serial.print(stageParameters[i].duration);
+
+    if (useProbeTrials){
+      Serial.print(", "); 
+      Serial.print(stageParameters[i].probe); 
+    }
+    Serial.println(); 
+
+  }  
+}

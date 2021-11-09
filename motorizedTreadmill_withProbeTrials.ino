@@ -93,19 +93,6 @@ void setup(void)
 
   Serial.begin(115200);
   
-  // Report total number of stages
-  Serial.print("Total number of stages: ");
-  Serial.println(randomTime.count);
-
-  // report speeds and times
-  Serial.println("Speed, Time"); 
-  
-  for (size_t i = 0; i <= randomTime.count ; i++)
-  {
-    Serial.print(stageParameters[i].speed);
-    Serial.print(", ");     
-    Serial.println(stageParameters[i].duration);
-  }  
 }
 
 void loop(void)
