@@ -111,4 +111,18 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
   }
 }
 
+void checkProbeMotor (int &activityTag, String &message, Probe probe)
+{
+  if (probe == Probe::None)
+  {
+    // If no probe, do nothing
+  }
   
+  else 
+  {
+    Probe_Messages probe_messages = getProbeMessages(probe, ProbeSubtype::Motor);   
+    activityTag = probe_messages.activity_tag;
+    message = probe_messages.probe_string;    
+  }
+
+}

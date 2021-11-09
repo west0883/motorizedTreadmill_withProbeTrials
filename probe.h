@@ -23,3 +23,4 @@ struct Probe_Messages
 
 void probeTrials(bool useProbeTrials, int count, double probability);
 struct Probe_Messages getProbeMessages(enum Probe probeName, ProbeSubtype probe_subtype);
+void checkProbeMotor (int &activityTag, String &message, Probe probe);

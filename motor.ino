@@ -43,6 +43,7 @@ void Motor::Start(float speed, Probe probe)
 
         // Report
         String message = "Motor: accelerating"; 
+        checkProbeMotor(activityTag, message, probe); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
@@ -61,6 +62,7 @@ void Motor::Start(float speed, Probe probe)
 
         // Report
         String message = "Motor: decelerating"; 
+        checkProbeMotor(activityTag, message, probe); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.stop();
@@ -75,6 +77,7 @@ void Motor::Start(float speed, Probe probe)
        
         // Report
         String message = "Motor: maintaining current speed "; 
+        checkProbeMotor(activityTag, message, probe); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
@@ -98,6 +101,7 @@ void Motor::Stop(void)
 
     // Report
     String message = "Motor: stopping "; 
+    checkProbeMotor(activityTag, message, probe); 
     Report(this->targetSpeed, activityTag, message);
     
     // Stop our motor
@@ -133,6 +137,7 @@ void Motor::RunOnce(void)
   
                 // Report
                 String message = "Motor: finished stopping "; 
+                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                 
                 // Turn off the motor's power
@@ -155,6 +160,7 @@ void Motor::RunOnce(void)
              
                 // Report
                 String message = "Motor: reached faster speed"; 
+                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                            
                 // the AccelStepper library doesn't need to reset the set speed after accelerating, like decelerating does
@@ -175,6 +181,7 @@ void Motor::RunOnce(void)
 
                 // Report
                 String message = "Motor: reached slower speed "; 
+                checkProbeMotor(activityTag, message, probe); 
                 Report(this->targetSpeed, activityTag, message);
                 
                 this->stepperMotor.setMaxSpeed(this->targetSpeed);
