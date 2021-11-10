@@ -25,19 +25,19 @@ uint32_t StartRestTime = 10000;
 uint32_t MinEndRestTime = 10000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime =330000;
+uint32_t TotalTime = 930000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
-uint32_t WarnTime = 3000;
+uint32_t WarnTime = 5000;
 
 // The amount of minimum time you want per stage (includeing the warning time and posible transition times). (IN SECONDS)
-int MinStageTime = 15;
+int MinStageTime = 20;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
-int MaxStageTime = 30;
+int MaxStageTime = 35;
 
 // Initialize the time stage parameters array with a lot of possible entries
-struct MouseRunner::StageParameters stageParameters[30];
+struct MouseRunner::StageParameters stageParameters[60];
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = false; 
@@ -82,6 +82,9 @@ static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), mot
 
 void setup(void)
 {
+  pinMode(A0, INPUT);  // for the trigger
+  Serial.begin(115200);
+  
   // Randomize time. Edits stageParameters.
   struct time_outputs randomTime = randomizeTime();
 
@@ -91,8 +94,10 @@ void setup(void)
   // Randomizes probe trials. Edits stageParameters. 
   probeTrials(useProbeTrials, randomTime.count, probability);
 
-  Serial.begin(115200);
+  // Report stages to be run
+  HeaderReport(randomTime.count);
   
+  Serial.println("Waiting for Trigger");
 }
 
 void loop(void)
