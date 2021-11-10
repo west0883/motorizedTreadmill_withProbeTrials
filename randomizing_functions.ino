@@ -124,10 +124,25 @@ void HeaderReport(int count)
     Serial.print(stageParameters[i].duration);
 
     if (useProbeTrials){
-      Serial.print(", "); 
-      Serial.print(stageParameters[i].probe); 
-    }
-    Serial.println(); 
 
+      if (stageParameters[i].probe == Probe::NoWarning)
+      {
+        Serial.print(", "); 
+        Serial.print("Probe: no warning cue");
+      }
+      
+      else if (stageParameters[i].probe == Probe::NoChange)
+      {
+        Serial.print(", "); 
+        Serial.print("Probe: no change in speed");
+      }
+      
+      else
+      {
+        Serial.print(", "); 
+        Serial.print("No probe");
+      }
+    }
+    Serial.println();
   }  
 }
