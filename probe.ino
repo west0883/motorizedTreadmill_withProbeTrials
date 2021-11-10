@@ -16,8 +16,9 @@ void probeTrials(bool useProbeTrials, int count, double probability){
      
      // Get a random number from 1 to 100
      randomSeed(analogRead(A5));
-     double prob1 = random(1, 101)/100;
-
+     double prob1 = random(1, 101); // /100;
+     prob1 = prob1/100;
+     
      // If that number is below the entered probability, this will be a probe trial. 
 
      if (prob1 < probability){
