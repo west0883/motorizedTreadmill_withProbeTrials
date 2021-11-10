@@ -18,8 +18,7 @@ MouseRunner::MouseRunner(const struct StageParameters *stageParameters, int stag
     motor(motor),
     warningTone(warningTone)
 {
-  pinMode(A0, INPUT);  // for the trigger
-  Serial.println("Waiting for Trigger");
+
 }
 
 /**
