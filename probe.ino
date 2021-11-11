@@ -65,7 +65,8 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype1 probe_subt
         switch (probe_subtype1){
           
           case ProbeSubtype1::Warning:
-          {
+          {    
+            
               probe_messages.activity_tag = 13;
               probe_messages.probe_string = "Warning cue: probe, no warning tone."; 
               probe_messages.toneParameters = {
@@ -80,11 +81,43 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype1 probe_subt
           
           case ProbeSubtype1::Motor:
           {
-               probe_messages.activity_tag = 14;
-               probe_messages.probe_string = "Motor: probe, no warning tone."; 
-               return probe_messages; 
-            break;
-          } 
+              switch (probe_subtype2){
+
+                // There's no subtype for Starting with the motor. 
+              
+                case ProbeSubtype2::Accelerating:
+                {
+                    probe_messages.activity_tag = 14;
+                    probe_messages.probe_string = "Motor: probe, no warning tone, accelerating."; 
+                    return probe_messages; 
+                  break;
+                }
+
+                case ProbeSubtype2::Decelerating:
+                {
+                    probe_messages.activity_tag = 15;
+                    probe_messages.probe_string = "Motor: probe, no warning tone, decelerating."; 
+                    return probe_messages; 
+                  break;
+                }
+
+                case ProbeSubtype2::Stopping:
+                {
+                    probe_messages.activity_tag = 16;
+                    probe_messages.probe_string = "Motor: probe, no warning tone, stopping."; 
+                    return probe_messages; 
+                  break;
+                }
+
+                 case ProbeSubtype2::Maintaining:
+                {
+                    probe_messages.activity_tag = 17;
+                    probe_messages.probe_string = "Motor: probe, no warning tone, maintaining."; 
+                    return probe_messages; 
+                  break;
+                }
+             }
+           } 
         }       
     }
 
@@ -92,17 +125,56 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype1 probe_subt
     {
        switch (probe_subtype1){
           
-          case ProbeSubtype1::Warning:
-          {
-               probe_messages.activity_tag = 15;
-               probe_messages.probe_string = "Warning cue: probe, no change in motor."; 
-               return probe_messages; 
-            break; 
-          }
+        case ProbeSubtype1::Warning:
+        {
+          switch (probe_subtype2){
 
+            case ProbeSubtype2::Starting:
+            {
+                 probe_messages.activity_tag = 18;
+                 probe_messages.probe_string = "Warning cue: probe, starting cue, no change in motor."; 
+                 return probe_messages; 
+              break; 
+            }
+
+             case ProbeSubtype2::Stopping:
+             {
+                 probe_messages.activity_tag = 19;
+                 probe_messages.probe_string = "Warning cue: probe, stopping cue, no change in motor."; 
+                 return probe_messages; 
+              break; 
+             }
+
+             case ProbeSubtype2::Accelerating:
+             {
+                 probe_messages.activity_tag = 20;
+                 probe_messages.probe_string = "Warning cue: probe, accerlerating cue, no change in motor."; 
+                 return probe_messages; 
+              break; 
+             }
+
+             case ProbeSubtype2::Decelerating:
+             {
+                 probe_messages.activity_tag = 21;
+                 probe_messages.probe_string = "Warning cue: probe, decelerating cue, no change in motor."; 
+                 return probe_messages; 
+              break; 
+             }
+
+             case ProbeSubtype2::Maintaining:
+             {
+                 probe_messages.activity_tag = 22;
+                 probe_messages.probe_string = "Warning cue: probe, maintaining cue, no change in motor."; 
+                 return probe_messages; 
+              break; 
+             }
+          }
+        }
+          
          case ProbeSubtype1::Motor:
-         {
-             probe_messages.activity_tag = 16;
+         {    
+             // Is the same for all warning cue types. 
+             probe_messages.activity_tag = 23;
              probe_messages.probe_string = "Motor: probe, no change in motor."; 
              return probe_messages; 
            break; 

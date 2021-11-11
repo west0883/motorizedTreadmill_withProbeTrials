@@ -34,4 +34,4 @@ struct Probe_Messages
 
 void probeTrials(bool useProbeTrials, int count, double probability);
 struct Probe_Messages getProbeMessages(enum Probe probeName, ProbeSubtype1 probe_subtype1, ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Blank);
-void checkProbeMotor (int &activityTag, String &message, Probe probe);
+void checkProbeMotor (int &activityTag, String &message, Probe probe, ProbeSubtype2 probe_subtype2);
