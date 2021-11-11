@@ -8,10 +8,21 @@ enum class Probe
     NoChange,
 };
 
-enum class ProbeSubtype
+enum class ProbeSubtype1
 {
   Warning,
   Motor
+};
+
+// Another subtype, to be used in printing correct messages
+enum class ProbeSubtype2
+{
+    Blank,
+    Starting,
+    Stopping,
+    Accelerating,
+    Decelerating, 
+    Maintaining
 };
 
 struct Probe_Messages
@@ -22,5 +33,5 @@ struct Probe_Messages
 };
 
 void probeTrials(bool useProbeTrials, int count, double probability);
-struct Probe_Messages getProbeMessages(enum Probe probeName, ProbeSubtype probe_subtype);
+struct Probe_Messages getProbeMessages(enum Probe probeName, ProbeSubtype1 probe_subtype1, ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Blank);
 void checkProbeMotor (int &activityTag, String &message, Probe probe);

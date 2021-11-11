@@ -43,7 +43,8 @@ void Motor::Start(float speed, Probe probe)
 
         // Report
         String message = "Motor: accelerating"; 
-        checkProbeMotor(activityTag, message, probe); 
+        ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Accelerating; 
+        checkProbeMotor(activityTag, message, probe, probe_subtype2); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
@@ -62,7 +63,8 @@ void Motor::Start(float speed, Probe probe)
 
         // Report
         String message = "Motor: decelerating"; 
-        checkProbeMotor(activityTag, message, probe); 
+         ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Decelerating; 
+        checkProbeMotor(activityTag, message, probe, probe_subtype2); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.stop();
@@ -77,7 +79,8 @@ void Motor::Start(float speed, Probe probe)
        
         // Report
         String message = "Motor: maintaining current speed "; 
-        checkProbeMotor(activityTag, message, probe); 
+        ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Maintaining; 
+        checkProbeMotor(activityTag, message, probe, probe_subtype2); 
         Report(this->targetSpeed, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
@@ -101,7 +104,8 @@ void Motor::Stop(Probe probe)
 
     // Report
     String message = "Motor: stopping "; 
-    checkProbeMotor(activityTag, message, probe); 
+    ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Stopping; 
+    checkProbeMotor(activityTag, message, probe, probe_subtype2); 
     Report(this->targetSpeed, activityTag, message);
     
     // Stop our motor

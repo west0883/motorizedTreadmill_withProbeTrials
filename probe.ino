@@ -54,7 +54,7 @@ void probeTrials(bool useProbeTrials, int count, double probability){
 }
 
 // Both of these will be reported at the motor's time.
-struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subtype) {
+struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype1 probe_subtype1, ProbeSubtype2 probe_subtype2) {
 
   struct Probe_Messages probe_messages;
   
@@ -62,9 +62,9 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
     
     case Probe::NoWarning: 
     {    
-        switch (probe_subtype){
+        switch (probe_subtype1){
           
-          case ProbeSubtype::Warning:
+          case ProbeSubtype1::Warning:
           {
               probe_messages.activity_tag = 13;
               probe_messages.probe_string = "Warning cue: probe, no warning tone."; 
@@ -78,7 +78,7 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
             break; 
           }
           
-          case ProbeSubtype::Motor:
+          case ProbeSubtype1::Motor:
           {
                probe_messages.activity_tag = 14;
                probe_messages.probe_string = "Motor: probe, no warning tone."; 
@@ -90,9 +90,9 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
 
     case Probe::NoChange: 
     {
-       switch (probe_subtype){
+       switch (probe_subtype1){
           
-          case ProbeSubtype::Warning:
+          case ProbeSubtype1::Warning:
           {
                probe_messages.activity_tag = 15;
                probe_messages.probe_string = "Warning cue: probe, no change in motor."; 
@@ -100,7 +100,7 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
             break; 
           }
 
-         case ProbeSubtype::Motor:
+         case ProbeSubtype1::Motor:
          {
              probe_messages.activity_tag = 16;
              probe_messages.probe_string = "Motor: probe, no change in motor."; 
@@ -112,7 +112,7 @@ struct Probe_Messages getProbeMessages(Probe probeName, ProbeSubtype probe_subty
   }
 }
 
-void checkProbeMotor (int &activityTag, String &message, Probe probe)
+void checkProbeMotor (int &activityTag, String &message, Probe probe, ProbeSubtype2 probe_subtype2)
 {
   if (probe == Probe::None)
   {
@@ -121,7 +121,7 @@ void checkProbeMotor (int &activityTag, String &message, Probe probe)
   
   else 
   {
-    Probe_Messages probe_messages = getProbeMessages(probe, ProbeSubtype::Motor);   
+    Probe_Messages probe_messages = getProbeMessages(probe, ProbeSubtype1::Motor, probe_subtype2);   
     activityTag = probe_messages.activity_tag;
     message = probe_messages.probe_string;    
   }
