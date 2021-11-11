@@ -48,26 +48,9 @@ static const bool useProbeTrials = false;
 static const double probability = 0.05; 
 
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
+// Explained further in comments at bottom.
 int activityTag;
 
-/** 
- *  1 = motor accelerating
- *  2 = motor decelerating
- *  3 = motor maintaining
- *  4 = motor stopping
- *  5 = motor finished stopping // Keeping this because it quickly finds the start of a rest period.
- *  6 = motor reached faster speed
- *  7 = motor reached slower speed
- *  8 = tone: starting
- *  9 = tone: stopping
- *  10 = tone: accelerating
- *  11 = tone: decellerating
- *  12 = tone: maintaining
- *  13 = tone probe: no warning.
- *  14 = motor probe: no warning.
- *  15 = tone probe: no change.
- *  16 = motor probe: no change.
- */ 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 // Predefine your times (do it here, and with "static" so they're accessible throughout program).
@@ -104,3 +87,29 @@ void loop(void)
   mouseRunner.RunOnce();
   motor.RunOnce();
 }
+
+/** 
+ *  1 = motor accelerating
+ *  2 = motor decelerating
+ *  3 = motor maintaining
+ *  4 = motor stopping
+ *  5 = motor finished stopping // Keeping this because it quickly finds the start of a rest period.
+ *  6 = motor reached faster speed
+ *  7 = motor reached slower speed
+ *  8 = tone: starting
+ *  9 = tone: stopping
+ *  10 = tone: accelerating
+ *  11 = tone: decellerating
+ *  12 = tone: maintaining
+ *  13 = Warning cue: probe, no warning.
+ *  14 = Motor: probe, no warning tone, accelerating.
+ *  15 = Motor: probe, no warning tone, decelerating.
+ *  16 = Motor: probe, no warning tone, stopping.
+ *  17 = Motor: probe, no warning tone, maintaining.
+ *  18 = Warning cue: probe, starting cue, no change in motor.
+ *  19 = Warning cue: probe, stopping cue, no change in motor.
+ *  20 = Warning cue: probe, accerlerating cue, no change in motor.
+ *  21 = Warning cue: probe, decelerating cue, no change in motor.
+ *  22 = Warning cue: probe, maintaining cue, no change in motor.
+ *  23 = motor probe: no change.
+ */ 
