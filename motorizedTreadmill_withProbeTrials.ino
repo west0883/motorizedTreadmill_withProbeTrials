@@ -1,9 +1,8 @@
-// motoriezedTreadmill_randomTone.ino
+// motoriezedTreadmill_withProbeTrials.ino
 // Sarah West
 // 3/9/21
 // Be sure you have the AccelStepper library installed & have included the Arduino Due as a possible board.
 
-// Should write a "report" function, so "activity tag" doesn't have to be global and you don't have to re-write the reporting lines over and over. Will be used in motor and warning tone.
 #include <stdint.h>
 #include <AccelStepper.h>
 
@@ -19,13 +18,13 @@
 static constexpr int allSpeeds[] ={0, 0, 0, 1600, 2400, 3200};
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
-uint32_t StartRestTime = 10000;
+uint32_t StartRestTime = 30000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
-uint32_t MinEndRestTime = 10000;
+uint32_t MinEndRestTime = 30000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 930000;
+uint32_t TotalTime = 630000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 5000;
@@ -49,7 +48,7 @@ static const bool useProbeTrials = false;
 static const double probability = 0.05; 
 
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
-int activityTag = 0;
+int activityTag;
 
 /** 
  *  1 = motor accelerating
