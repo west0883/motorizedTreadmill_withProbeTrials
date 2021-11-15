@@ -36,7 +36,6 @@ void Motor::Start(float speed, Probe probe)
     {
       digitalWrite(Motor::SleepPowerPin, HIGH);
       delay(3);
-      Serial.println(stepperMotor.currentPosition()); 
       this->awakeState = true; 
     }
     
@@ -225,12 +224,6 @@ void Motor::RoundedStop(void)
       long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->StepperAccell)) + 1; // Equation 16 (+integer rounding)
       
       long roundedSteps = RoundUp(currentPos, stepsToStop, 4);
-
-      Serial.print(currentPos);
-      Serial.print(", ");
-      Serial.print(stepsToStop);
-      Serial.print(", ");
-      Serial.println(roundedSteps);
       
       if (this->stepperMotor.speed() > 0)
       {
