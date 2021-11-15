@@ -33,6 +33,7 @@ void Motor::Start(float speed, Probe probe)
     this->targetSpeed = speed;
 
     digitalWrite(Motor::SleepPowerPin, HIGH);
+    delay(3);
 
     // If we'll be accelerating, just set the new max speed, as the motor driver
     // will manage accelerating
@@ -109,7 +110,6 @@ void Motor::Stop(Probe probe)
     Report(this->targetSpeed, activityTag, message);
     
     // Stop our motor
-    this->stepperMotor.stop();
     RoundedStop();
   
     this->state = State::Stopping;
