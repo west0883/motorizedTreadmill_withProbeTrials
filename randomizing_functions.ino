@@ -20,7 +20,7 @@ struct time_outputs randomizeTime(void)
   while (cumulativeTime < timeWorking )
   {
     // Find a random time
-    uint32_t stagetime = random(MinStageTime, MaxStageTime) * (1000);
+    uint32_t stagetime = random(MinStageTime, MaxStageTime + 1) * (1000);
 
     if (count >= ARRAY_SIZE(stageParameters))
     {
