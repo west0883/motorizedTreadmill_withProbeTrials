@@ -15,7 +15,7 @@ Motor::Motor(void):
     pinMode(53, OUTPUT);
     pinMode(Motor::SleepPowerPin, OUTPUT);
     digitalWrite(Motor::SleepPowerPin, LOW);
-    
+    awakeState = false;
     this->stepperMotor.setAcceleration(Motor::StepperAccell);
     this->stepperMotor.setCurrentPosition(0);
 }
@@ -32,9 +32,14 @@ void Motor::Start(float speed, Probe probe)
 {
     this->targetSpeed = speed;
 
-    digitalWrite(Motor::SleepPowerPin, HIGH);
-    delay(3);
-
+    if (this->awakeState == false)
+    {
+      digitalWrite(Motor::SleepPowerPin, HIGH);
+      delay(3);
+      Serial.println(stepperMotor.currentPosition()); 
+      this->awakeState = true; 
+    }
+    
     // If we'll be accelerating, just set the new max speed, as the motor driver
     // will manage accelerating
     if (this->targetSpeed >  this->stepperMotor.speed())
@@ -108,9 +113,6 @@ void Motor::Stop(Probe probe)
     ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Stopping; 
     checkProbeMotor(activityTag, message, probe, probe_subtype2); 
     Report(this->targetSpeed, activityTag, message);
-
-    // Get the current position. 
-    long currentPos = this->stepperMotor.currentPosition(); 
     
     // Stop our motor
     RoundedStop();
@@ -147,10 +149,11 @@ void Motor::RunOnce(void)
                 String message = "Motor: finished stopping "; 
                 Report(this->targetSpeed, activityTag, message);
                 
-                this->stepperMotor.setCurrentPosition(0);
+               // this->stepperMotor.setCurrentPosition(0);
                 
                 // Turn off the motor's power
                 digitalWrite(Motor::SleepPowerPin, LOW);
+                awakeState = false; 
                 
                 // go to Idle state 
                 this->state = State::Idle;
@@ -211,28 +214,44 @@ void Motor::RunOnce(void)
     this->stepperMotor.run();
 }
 
+// Stops the motor on a whole step (always make divisible by 4) to avoid jerking on next start-up.
 void Motor::RoundedStop(void)
 {
     if (this->stepperMotor.speed() != 0.0)
     {    
+      
+      // Get the current position. 
+      long currentPos = this->stepperMotor.currentPosition(); 
       long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->StepperAccell)) + 1; // Equation 16 (+integer rounding)
-      long roundedSteps = RoundUp(stepsToStop, 32);
+      
+      long roundedSteps = RoundUp(currentPos, stepsToStop, 4);
+
+      Serial.print(currentPos);
+      Serial.print(", ");
+      Serial.print(stepsToStop);
+      Serial.print(", ");
       Serial.println(roundedSteps);
-      if (stepperMotor._speed > 0)
+      
+      if (this->stepperMotor.speed() > 0)
       {
-          this->stepperMotor.move(stepsToStop);
+          this->stepperMotor.move(roundedSteps);
       }
       else
       {
-          this->stepperMotor.move(-stepsToStop);
+          this->stepperMotor.move(-roundedSteps);
       }
     }
 }
 
-long Motor::RoundUp(long numToRound, int multiple) 
+long Motor::RoundUp(long currentPos, long stepsToStop, int multiple) 
 {
-  if (numToRound == 0) return 0;
+  if (stepsToStop == 0) return 0;
   else{
-    return ((numToRound + multiple - 1) / multiple) * multiple;
+
+    // Create a holder number that incorporates where the motor is now/if it's not on a whole step AND the distance to stop.
+    long holder = currentPos + stepsToStop;  
+
+    // Round holder number, subtract out the current position. Should return a whole-step number that takes both into account.  
+    return ((holder + multiple - 1) / multiple) * multiple - currentPos;
   }
 }

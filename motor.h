@@ -37,6 +37,8 @@ class Motor
         // The next target speed
         float targetSpeed = 0;
 
+        // Keep track of if sleep pin is on or not.
+        bool awakeState;
         
     public:
         Motor(void);
@@ -47,5 +49,5 @@ class Motor
         
         void RunOnce(void);
         void RoundedStop(void);
-        long RoundUp(long numToRound, int multiple);
+        long RoundUp(long currentPos, long stepsToStop,  int multiple);
 };
