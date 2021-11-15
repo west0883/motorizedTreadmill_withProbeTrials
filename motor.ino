@@ -14,7 +14,7 @@ Motor::Motor(void):
     pinMode(51, OUTPUT);
     pinMode(53, OUTPUT);
     pinMode(Motor::SleepPowerPin, OUTPUT);
-    digitalWrite(Motor::SleepPowerPin, LOW);
+    digitalWrite(Motor::SleepPowerPin, HIGH);
     awakeState = false;
     this->stepperMotor.setAcceleration(Motor::StepperAccell);
     this->stepperMotor.setCurrentPosition(0);
@@ -34,7 +34,7 @@ void Motor::Start(float speed, Probe probe)
 
     if (this->awakeState == false)
     {
-      digitalWrite(Motor::SleepPowerPin, HIGH);
+      digitalWrite(Motor::SleepPowerPin, LOW);
       delay(3);
       this->awakeState = true; 
     }
@@ -71,7 +71,8 @@ void Motor::Start(float speed, Probe probe)
          ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Decelerating; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
         Report(this->targetSpeed, activityTag, message);
-        
+
+        //this->stepperMotor.stop();
         this->RoundedStop();
         this->state = State::Decelerating;
     }
@@ -114,6 +115,7 @@ void Motor::Stop(Probe probe)
     Report(this->targetSpeed, activityTag, message);
     
     // Stop our motor
+    //this->stepperMotor.stop();
     RoundedStop();
   
     this->state = State::Stopping;
@@ -151,7 +153,7 @@ void Motor::RunOnce(void)
                // this->stepperMotor.setCurrentPosition(0);
                 
                 // Turn off the motor's power
-                digitalWrite(Motor::SleepPowerPin, LOW);
+                digitalWrite(Motor::SleepPowerPin, HIGH);
                 awakeState = false; 
                 
                 // go to Idle state 
