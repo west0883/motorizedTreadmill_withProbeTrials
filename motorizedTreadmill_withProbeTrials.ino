@@ -42,10 +42,10 @@ struct MouseRunner::StageParameters stageParameters[60];
 static const bool useMaintaining = true; 
 
 // Make a flag for if probe trials should be used.
-static const bool useProbeTrials = false;
+static const bool useProbeTrials = true;
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
-static const double probability = 0.05; 
+static const double probability = 0.30; 
 
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
 // Explained further in comments at bottom.

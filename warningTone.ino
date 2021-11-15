@@ -123,15 +123,16 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
    WarningTone::ToneParameters result; 
    String message; 
    
-   // Declare a probe_subtype2 with default value of Blank
+   // Declare probe subtypes. Give probe_subtype2 a default value of Blank
+   ProbeSubtype1 probe_subtype1 = ProbeSubtype1::Warning;
    ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Blank;
    
    // If there are probe trials, and this is a probe trial, 
-   if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoWarning){
+   if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoWarning)
+   {
 
-      // Indicate this is coming from the warning tone function.
-      ProbeSubtype1 probe_subtype1 = ProbeSubtype1::Warning; 
-      ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Blank;
+      // The probe subtype2 should be blank.
+      probe_subtype2 = ProbeSubtype2::Blank;
     
       // Call correct probes
       Probe_Messages probe_messages = getProbeMessages(stageParameters[currentStage].probe, probe_subtype1, probe_subtype2);
@@ -144,7 +145,8 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
    }
 
    // If not that particular probe, calculate tone parameters. 
-   else {
+   else 
+   {
 
        // First check value of stageParameters[currentStage].speed_difference, then check if current or next stage speed is 0
       
@@ -159,7 +161,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
               
                 // Report
                 message = "Warning cue: starting "; 
-               
+                probe_subtype2 = ProbeSubtype2::Starting;
                // High pitch, long 
                 result = {
                     .frequency1 = 10000,
@@ -177,7 +179,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
     
                // Report
                message = "Warning cue: accelerating ";
-               ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Accelerating;
+               probe_subtype2 = ProbeSubtype2::Accelerating;
                
                // low, blank, high (ascending pitches)
                result = {
@@ -199,6 +201,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
     
                // Report
                message = "Warning cue: stopping"; 
+               probe_subtype2 = ProbeSubtype2::Stopping;
                
                // Low pitch, 1 long
                result = {
@@ -215,7 +218,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
                
                // Report
                message = "Warning cue: decelerating "; 
-               ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Decelerating;
+               probe_subtype2 = ProbeSubtype2::Decelerating;
                
                // high, blank, low (descending pitches)
                result = {
@@ -237,7 +240,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
                
               // Report
               message = "Warning cue: maintaining"; 
-              ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Maintaining;
+              probe_subtype2 = ProbeSubtype2::Maintaining;
                
               // Mid, blank, mid
               result = {
@@ -250,7 +253,8 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
     
               // Report
               message = "Warning cue: maintaining, no tone given "; 
-             
+              probe_subtype2 = ProbeSubtype2::Maintaining;
+              
               result = {
                     .frequency1 = 0,
                     .frequency2 = 0,
@@ -262,9 +266,6 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
         // If this was the "no change" probe, overwrite the reporting messages  
         if (useProbeTrials && stageParameters[currentStage].probe == Probe::NoChange){
       
-            // Indicate this is coming from the warning tone function.
-            ProbeSubtype1 probe_subtype1 = ProbeSubtype1::Warning; 
-          
             // Call correct probes
             Probe_Messages probe_messages = getProbeMessages(stageParameters[currentStage].probe, probe_subtype1, probe_subtype2);
 
