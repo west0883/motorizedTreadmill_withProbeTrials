@@ -67,7 +67,7 @@ void Motor::Start(float speed, Probe probe)
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
         Report(this->targetSpeed, activityTag, message);
         
-        this->stepperMotor.stop();
+        this->RoundedStop();
         this->state = State::Decelerating;
     }
     
@@ -110,6 +110,7 @@ void Motor::Stop(Probe probe)
     
     // Stop our motor
     this->stepperMotor.stop();
+    RoundedStop();
   
     this->state = State::Stopping;
 }
@@ -142,6 +143,8 @@ void Motor::RunOnce(void)
                 // Report
                 String message = "Motor: finished stopping "; 
                 Report(this->targetSpeed, activityTag, message);
+                
+                this->stepperMotor.setCurrentPosition(0);
                 
                 // Turn off the motor's power
                 digitalWrite(Motor::SleepPowerPin, LOW);
@@ -203,4 +206,30 @@ void Motor::RunOnce(void)
     // This holds in its 'memory' where the motor is supposed to go and checks if the
     // stepper is due for another step; runs for every iteration of the loop
     this->stepperMotor.run();
+}
+
+void Motor::RoundedStop(void)
+{
+    if (this->stepperMotor._speed != 0.0)
+    {    
+      long stepsToStop = (long)((this->stepperMotor._speed *this->stepperMotor._speed) / (2.0 *this->stepperMotor._acceleration)) + 4; // Equation 16 (+integer rounding)
+      long roundedSteps = RoundUp(stepsToStop, 32);
+      Serial.println(roundedSteps);
+      if (stepperMotor._speed > 0)
+      {
+          this->stepperMotor.move(stepsToStop);
+      }
+      else
+      {
+          this->stepperMotor.move(-stepsToStop);
+      }
+    }
+}
+
+long Motor::RoundUp(long numToRound, int multiple) 
+{
+  if (numToRound == 0) return 0;
+  else{
+    return ((numToRound + multiple - 1) / multiple) * multiple;
+  }
 }

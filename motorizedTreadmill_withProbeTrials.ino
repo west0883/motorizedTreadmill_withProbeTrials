@@ -39,10 +39,10 @@ int MaxStageTime = 15;
 struct MouseRunner::StageParameters stageParameters[60];
 
 // Make a flag for if maintaining tones should be used; 
-static const bool useMaintaining = true; 
+static const bool useMaintaining = false; 
 
 // Make a flag for if probe trials should be used.
-static const bool useProbeTrials = true;
+static const bool useProbeTrials = false;
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
 static const double probability = 0.30; 

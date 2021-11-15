@@ -46,4 +46,6 @@ class Motor
         void Stop(Probe probe);
         
         void RunOnce(void);
+        void RoundedStop(void);
+        long RoundUp(long numToRound, int multiple);
 };
