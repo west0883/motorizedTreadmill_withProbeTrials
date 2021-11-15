@@ -108,6 +108,9 @@ void Motor::Stop(Probe probe)
     ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Stopping; 
     checkProbeMotor(activityTag, message, probe, probe_subtype2); 
     Report(this->targetSpeed, activityTag, message);
+
+    // Get the current position. 
+    long currentPos = this->stepperMotor.currentPosition(); 
     
     // Stop our motor
     RoundedStop();
@@ -210,9 +213,9 @@ void Motor::RunOnce(void)
 
 void Motor::RoundedStop(void)
 {
-    if (this->stepperMotor._speed != 0.0)
+    if (this->stepperMotor.speed() != 0.0)
     {    
-      long stepsToStop = (long)((this->stepperMotor._speed *this->stepperMotor._speed) / (2.0 *this->stepperMotor._acceleration)) + 4; // Equation 16 (+integer rounding)
+      long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->StepperAccell)) + 1; // Equation 16 (+integer rounding)
       long roundedSteps = RoundUp(stepsToStop, 32);
       Serial.println(roundedSteps);
       if (stepperMotor._speed > 0)
