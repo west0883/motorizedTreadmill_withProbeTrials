@@ -84,7 +84,8 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
     stageParameters[randomTime.count].speed = 0;
 
     // Calculate the speed difference (for warning tone and easier use of probe trials).
-     for (size_t i = 1; i < randomTime.count ; i++)
+     for (size_t i = 0
+     ; i < randomTime.count ; i++)
     {
         // Place in parameter array
         stageParameters[i].speed_difference = stageParameters[i + 1].speed - stageParameters[i].speed;
