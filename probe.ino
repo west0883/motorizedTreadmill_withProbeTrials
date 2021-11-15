@@ -25,7 +25,7 @@ void probeTrials(bool useProbeTrials, int count, double probability){
 
          // Now, get a random number either 0 or 1
          randomSeed(analogRead(A5));
-         int prob2 = random(1, 2);
+         int prob2 = random(0, 2);
 
          switch (prob2){
             
