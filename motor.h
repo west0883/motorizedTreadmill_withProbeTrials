@@ -23,7 +23,7 @@ class Motor
         AccelStepper stepperMotor;
 
         // Which pin controls our sleeping
-        static constexpr const size_t SleepPowerPin = 49;
+        static constexpr const size_t SleepPowerPin = 4;
 
         // Which pin controls our step size
         //static constexpr const size_t M1pin = 5;

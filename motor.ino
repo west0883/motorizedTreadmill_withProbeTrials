@@ -9,10 +9,10 @@
  * \return none
  */
 Motor::Motor(void):
-    stepperMotor(AccelStepper::DRIVER, 51, 53)
+    stepperMotor(AccelStepper::DRIVER, 3, 2)
 {
-    pinMode(51, OUTPUT);
-    pinMode(53, OUTPUT);
+    pinMode(3, OUTPUT);
+    pinMode(2, OUTPUT);
     pinMode(Motor::SleepPowerPin, OUTPUT);
     digitalWrite(Motor::SleepPowerPin, HIGH);
     awakeState = false;
