@@ -65,6 +65,7 @@ static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), mot
 void setup(void)
 {
   pinMode(A0, INPUT);  // for the trigger
+  pinMode(A5, INPUT);  // for randomization
   Serial.begin(115200);
   
   // Randomize time. Edits stageParameters.
