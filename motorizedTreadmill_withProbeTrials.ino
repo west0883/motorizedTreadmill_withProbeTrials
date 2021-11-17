@@ -15,7 +15,7 @@
 
 
 // write out what speeds you want to include; ***YOU CAN EDIT THIS***
-static constexpr int allSpeeds[] ={0, 0, 0, 2000, 2400, 2800};
+static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 10000;
@@ -39,7 +39,7 @@ int MaxStageTime = 15;
 struct MouseRunner::StageParameters stageParameters[60];
 
 // Make a flag for if maintaining tones should be used; 
-static const bool useMaintaining = false; 
+static const bool useMaintaining = true; 
 
 // Make a flag for if probe trials should be used.
 static const bool useProbeTrials = false;
