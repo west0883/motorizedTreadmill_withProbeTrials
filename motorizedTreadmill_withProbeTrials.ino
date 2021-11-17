@@ -24,7 +24,7 @@ uint32_t StartRestTime = 30000;
 uint32_t MinEndRestTime = 30000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 630000;
+uint32_t TotalTime = 330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 3000;
