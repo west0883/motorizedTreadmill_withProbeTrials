@@ -15,7 +15,7 @@ void probeTrials(bool useProbeTrials, int count, double probability){
      if (useProbeTrials) {
      
      // Get a random number from 1 to 100
-     randomSeed(analogRead(A5));
+     randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
      double prob1 = random(1, 101); // /100;
      prob1 = prob1/100;
      
@@ -24,7 +24,7 @@ void probeTrials(bool useProbeTrials, int count, double probability){
      if (prob1 < probability){
 
          // Now, get a random number either 0 or 1
-         randomSeed(analogRead(A5));
+         randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
          int prob2 = random(0, 2);
 
          switch (prob2){

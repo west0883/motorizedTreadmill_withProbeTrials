@@ -6,7 +6,7 @@
 struct time_outputs randomizeTime(void) 
   {
   // Create a random seed for random sequence generator.
-  randomSeed(analogRead(A1) + analogRead(A5) + analogRead(A10));
+  randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
 
   // Initialize the variable you'll use to keep track of how much of the working time has been used.
   uint32_t cumulativeTime = 0;
@@ -64,7 +64,7 @@ struct time_outputs randomizeTime(void)
 static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t StartRestTime)
 {
     // Creates a random seed for random sequence generator.
-    randomSeed(analogRead(A1) + analogRead(A5) + analogRead(A10));
+    randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
   
     // Use the counter from above. Don't include "count", because that is the final rest period.  
     // Don't include index "0" because that is the initial rest period. 
