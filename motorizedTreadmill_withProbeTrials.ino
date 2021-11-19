@@ -14,7 +14,9 @@
 #include "mouse_runner.h"
 
 
-// write out what speeds you want to include; ***YOU CAN EDIT THIS***
+// Paramters that can be edited. 
+
+// write out what speeds you want to include; 
 static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
@@ -27,7 +29,7 @@ uint32_t MinEndRestTime = 30000;
 uint32_t TotalTime = 330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
-uint32_t WarnTime = 3000;
+uint32_t WarnTime = 5000;
 
 // The amount of minimum time you want per stage (includeing the warning time and posible transition times). (IN SECONDS)
 int MinStageTime = 12;
@@ -36,7 +38,7 @@ int MinStageTime = 12;
 int MaxStageTime = 35;
 
 // Initialize the time stage parameters array with a lot of possible entries
-struct MouseRunner::StageParameters stageParameters[60];
+struct MouseRunner::StageParameters stageParameters[20];
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = true; 
@@ -47,10 +49,13 @@ static const bool useProbeTrials = false;
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
 static const double probability = 0.30; 
 
+// DON'T EDIT:
+
 // Make a tag that motor and warningTone will use to make understanding what's happening in the serial monitor easier to understand later.
 // Explained further in comments at bottom.
 int activityTag;
 
+// Function that finds the size of an array.
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 // Predefine your times (do it here, and with "static" so they're accessible throughout program).
