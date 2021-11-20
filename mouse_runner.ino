@@ -18,7 +18,7 @@ MouseRunner::MouseRunner(const struct StageParameters *stageParameters, int stag
     motor(motor),
     warningTone(warningTone)
 {
-
+    
 }
 
 /**

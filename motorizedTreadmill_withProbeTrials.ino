@@ -20,10 +20,10 @@
 static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
-uint32_t StartRestTime = 30000;
+uint32_t StartRestTime = 45000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
-uint32_t MinEndRestTime = 10000;
+uint32_t MinEndRestTime = 15000;
 
 // The total amount of time in the recording.(ms)
 uint32_t TotalTime = 330000;

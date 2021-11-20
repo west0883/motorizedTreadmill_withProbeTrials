@@ -133,7 +133,10 @@ void Motor::RunOnce(void)
     switch (this->state)
     {
         case State::Idle:
-        {
+        { 
+            // Make sure enable pin is high during waiting for trigger period.
+            digitalWrite(Motor::SleepPowerPin, HIGH);
+            
             // Nothing else to do
             return;
         }
