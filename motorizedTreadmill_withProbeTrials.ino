@@ -23,7 +23,7 @@ static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
 uint32_t StartRestTime = 30000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
-uint32_t MinEndRestTime = 30000;
+uint32_t MinEndRestTime = 10000;
 
 // The total amount of time in the recording.(ms)
 uint32_t TotalTime = 330000;
@@ -38,7 +38,7 @@ int MinStageTime = 12;
 int MaxStageTime = 35;
 
 // Make a flag for if an input trigger (from Spike2) should be used.
-static const bool useTrigger = false; 
+static const bool useTrigger = true; 
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = true; 
