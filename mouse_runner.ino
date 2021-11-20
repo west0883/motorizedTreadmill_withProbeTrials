@@ -106,14 +106,25 @@ void MouseRunner::RunOnce(void)
     switch (this->state)
     {
         case State::Waiting:
-        {
-         //if (digitalRead(A0) == HIGH)
-          //{
+        {  
+           // If useing a trigger (useTrigger == true), check for a trigger input
+           if (useTrigger) 
+           {
+              if (digitalRead(A0) == HIGH)
+              {
                 Serial.println("Starting Mouse Runner");
                 globalStartTime = millis();
                 this->Start();
-  //       }
-            
+              }
+            }
+
+            // If not using a trigger, start right away
+            else
+            { 
+              Serial.println("Starting Mouse Runner");
+              globalStartTime = millis();
+              this->Start();
+            }
             break;
         }
 

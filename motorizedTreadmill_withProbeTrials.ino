@@ -37,8 +37,8 @@ int MinStageTime = 12;
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
 int MaxStageTime = 35;
 
-// Initialize the time stage parameters array with a lot of possible entries
-struct MouseRunner::StageParameters stageParameters[20];
+// Make a flag for if an input trigger (from Spike2) should be used.
+static const bool useTrigger = false; 
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = true; 
@@ -47,7 +47,10 @@ static const bool useMaintaining = true;
 static const bool useProbeTrials = false;
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
-static const double probability = 0.30; 
+static const double probability = 0.10; 
+
+// Initialize the time stage parameters array with a lot of possible entries
+struct MouseRunner::StageParameters stageParameters[25];
 
 // DON'T EDIT:
 
