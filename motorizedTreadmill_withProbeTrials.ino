@@ -86,8 +86,12 @@ void setup(void)
 
   // Report stages to be run
   HeaderReport(randomTime.count);
-  
-  Serial.println("Waiting for Trigger");
+
+  // If using a trigger, print out that it's waiting.
+  if (useTrigger)
+  {
+    Serial.println("Waiting for Trigger");
+  }
 }
 
 void loop(void)
