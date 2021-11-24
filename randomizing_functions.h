@@ -11,3 +11,4 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
 static void randomizeAccel(time_outputs randomTime);
 void Report(float targetSpeed, int activityTag, String message);
 void HeaderReport(int count); 
+int getMinSpeed(void);

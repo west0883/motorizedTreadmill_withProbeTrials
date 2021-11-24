@@ -92,20 +92,43 @@ static void randomizeSpeed(time_outputs randomTime)
     }
 }
 
-// Creates a function that randomizes the speed order
+// Creates a function that randomizes the speed order. Make dependent on speedDiff value to determine what kind of change it is.
 static void randomizeAccel(time_outputs randomTime)
 {
-    // Creates a random seed for random sequence generator.
-    randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
-  
-    // Don't include index "0" because that is the initial rest period. 
-    for (size_t i = 1; i <= randomTime.count ; i++)
+    // Only do this if user has said they want to randomize the accelerations.
+    if (useAccels)
     {
-        // Pick a random index within the speed array
-        size_t j = random(0, ARRAY_SIZE(allAccels));
+        // Creates a random seed for random sequence generator.
+        randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
+
+        // Find the minimum speed 
+        int min_speed = getMinSpeed(); 
+        
+        // Don't include index "0" because that is the initial rest period. 
+        for (size_t i = 1; i <= randomTime.count ; i++)
+        {
+           // Use previous stage's speed difference (accel set at start of new stage, when motor transition begins)
     
-        // Place in parameter array
-        stageParameters[i].accel = allAccels[j];
+           // If greater than the largest difference between speeds (hard code for now), then it's a start or stop
+           if (stageParameters[i - 1].speed_difference > 800)
+           {
+            // Pick a random index within the speed array
+            size_t j = random(0, ARRAY_SIZE(accelsStartStop));
+        
+            // Place in parameter array
+            stageParameters[i].accel = accelsStartStop[j];
+           }
+    
+           // Otherwise, is assumed to be a speed change.
+           else
+           {
+             // Pick a random index within the speed array
+            size_t j = random(0, ARRAY_SIZE(accelsSpeedChange));
+        
+            // Place in parameter array
+            stageParameters[i].accel = accelsSpeedChange[j];
+           }
+        }
     }
 }
 
@@ -154,7 +177,8 @@ void HeaderReport(int count)
     
     Serial.print(stageParameters[i].duration);
 
-    if (useProbeTrials){
+    if (useProbeTrials)
+    {
 
       if (stageParameters[i].probe == Probe::NoWarning)
       {
@@ -176,4 +200,27 @@ void HeaderReport(int count)
     }
     Serial.println();
   }  
+}
+
+int min_speed getMinSpeed(void)
+{
+  // Initialize min speed as 0 
+  int min_speed = 0; 
+
+  for (int i = 0; i < ARRAY_SIZE(allSpeeds) - 1; i++)
+  { 
+    
+    // Don't include rest (speed = 0); 
+    if (allSpeeds[i] == 0)
+    {
+      continue
+    } 
+    
+    else (allSpeeds[i] != 0) 
+    { 
+      min_speed = min(min_speed, allSpeeds[i]); 
+    } 
+  }
+
+  return min_speed;
 }

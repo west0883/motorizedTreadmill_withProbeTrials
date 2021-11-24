@@ -19,8 +19,11 @@
 // write out what speeds you want to include (steps/s); 
 static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
 
-// write out what accelerations you want to include (steps/s/s):
-static constexpr int allAccels[] = {400, 600, 800}; 
+// write out what accelerations you want to include for starts and stops(steps/s/s):
+static constexpr int accelsStartStop[] = {400, 600, 800}; 
+
+// What accelerations you want to include for speed changes (steps/s/s):
+static constexpr int accelsSpeedChange[] = {200, 400, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 45000;
@@ -85,8 +88,11 @@ void setup(void)
   struct time_outputs randomTime = randomizeTime();
 
   // Randomize speed. Edits stageParameters.
-  randomizeSpeed(randomTime, TotalTime, StartRestTime);
+  randomizeSpeed(randomTime);
 
+  // Randomize accelerations. Edits stageParameters. 
+  randomizeAccel(randomTime); 
+  
   // Randomizes probe trials. Edits stageParameters. 
   probeTrials(useProbeTrials, randomTime.count, probability);
 
