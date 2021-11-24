@@ -49,6 +49,9 @@ static const bool useMaintaining = true;
 // Make a flag for if probe trials should be used.
 static const bool useProbeTrials = false;
 
+// Make a flag for if random accelerations should be used.
+static const bool useAccels = true; 
+
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
 static const double probability = 0.10; 
 

@@ -117,8 +117,12 @@ void Report(float targetSpeed, float accel, int activityTag, String message)
     Serial.print(", "); 
     Serial.print(String(targetSpeed));
     Serial.print(", "); 
-    Serial.print(String(accel));
-    Serial.print(", "); 
+    
+    if (useAccels){
+      Serial.print(String(accel));
+      Serial.print(", "); 
+    }
+    
     Serial.print(activityTag); 
     Serial.print(", "); 
     Serial.println(message); 
@@ -140,7 +144,14 @@ void HeaderReport(int count)
   for (size_t i = 0; i <= count ; i++)
   {
     Serial.print(stageParameters[i].speed);
-    Serial.print(", ");     
+    Serial.print(", ");
+
+    if (useAccels)
+    {
+      Serial.print(stageParameters[i].accel);
+      Serial.print(", ");
+    }
+    
     Serial.print(stageParameters[i].duration);
 
     if (useProbeTrials){

@@ -32,6 +32,8 @@ class Motor
         // The next target speed
         float targetSpeed = 0;
 
+        // The current acceleration.
+        
         // Keep track of if sleep pin is on or not.
         bool awakeState;
         
