@@ -28,9 +28,6 @@ class Motor
         // Which pin controls our step size
         //static constexpr const size_t M1pin = 5;
 
-        // Acceleration and deceleration of stepper motor
-        static constexpr const float StepperAccell = 800;
-
         // The arbitrary number of steps you want the motor to aim for 
         static constexpr const long nSteps = LONG_MAX;
 

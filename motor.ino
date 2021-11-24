@@ -16,7 +16,6 @@ Motor::Motor(void):
     pinMode(Motor::SleepPowerPin, OUTPUT);
     digitalWrite(Motor::SleepPowerPin, HIGH);
     awakeState = false;
-    this->stepperMotor.setAcceleration(Motor::StepperAccell);
     this->stepperMotor.setCurrentPosition(0);
 }
 
