@@ -204,19 +204,25 @@ void HeaderReport(int count)
 
 int min_speed getMinSpeed(void)
 {
-  // Initialize min speed as 0 
-  int min_speed = 0; 
-
+  // Find first non-zero elemet of allSpeeds to use as a default minimum
   for (int i = 0; i < ARRAY_SIZE(allSpeeds) - 1; i++)
-  { 
-    
+  {
+    if (allSpeeds[i] != 0)
+    {
+      minimum = allSpeeds[i]; 
+      start_index = i;
+      break; 
+    }
+  } 
+  
+  for (int i = start_index; i < ARRAY_SIZE(allSpeeds) - 1; i++)
+  {   
     // Don't include rest (speed = 0); 
     if (allSpeeds[i] == 0)
     {
       continue
     } 
-    
-    else (allSpeeds[i] != 0) 
+    else 
     { 
       min_speed = min(min_speed, allSpeeds[i]); 
     } 
