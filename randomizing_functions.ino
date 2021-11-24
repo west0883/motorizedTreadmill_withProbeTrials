@@ -110,8 +110,8 @@ static void randomizeAccel(time_outputs randomTime)
         {
            // Use previous stage's speed difference (accel set at start of new stage, when motor transition begins)
     
-           // If greater than the largest difference between speeds (hard code for now), then it's a start or stop
-           if (stageParameters[i - 1].speed_difference > 800)
+           // If less than the minimum speed, then it's a start or stop
+           if (stageParameters[i - 1].speed_difference < min_speed)
            {
             // Pick a random index within the speed array
             size_t j = random(0, ARRAY_SIZE(accelsStartStop));
@@ -159,24 +159,32 @@ void HeaderReport(int count)
   Serial.println(count);
 
   // report speeds and times HeaderReport(int randomTime.count); 
-  Serial.print("Speed, Time");
+  Serial.print("Time, Speed");
+
+  if (useAccels)
+  {
+     Serial.print(", Acceleration");
+  }
+  
   if (useProbeTrials){
     Serial.print(", Probe type"); 
   }
+
   Serial.println();
-  
+ 
   for (size_t i = 0; i <= count ; i++)
-  {
-    Serial.print(stageParameters[i].speed);
+  {  
+    Serial.print(stageParameters[i].duration);
     Serial.print(", ");
+    
+    Serial.print(stageParameters[i].speed);
+    
 
     if (useAccels)
     {
-      Serial.print(stageParameters[i].accel);
       Serial.print(", ");
+      Serial.print(stageParameters[i].accel);
     }
-    
-    Serial.print(stageParameters[i].duration);
 
     if (useProbeTrials)
     {
