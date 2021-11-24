@@ -20,8 +20,6 @@ class Motor
         
         enum State state = State::Idle;
 
-        AccelStepper stepperMotor;
-
         // Which pin controls our sleeping
         static constexpr const size_t SleepPowerPin = 4;
 
@@ -40,6 +38,8 @@ class Motor
     public:
         Motor(void);
 
+        AccelStepper stepperMotor;
+        
         // Declare the stepper acceleration, set to a default.
         static constexpr const float StepperAccell = 800;
         
