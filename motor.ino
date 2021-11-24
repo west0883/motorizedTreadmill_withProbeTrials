@@ -49,7 +49,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: accelerating"; 
         ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Accelerating; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
 
@@ -69,7 +69,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: decelerating"; 
          ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Decelerating; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
 
         //this->stepperMotor.stop();
         this->RoundedStop();
@@ -86,7 +86,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: maintaining current speed "; 
         ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Maintaining; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
         this->stepperMotor.move(Motor::nSteps);
@@ -111,7 +111,7 @@ void Motor::Stop(Probe probe)
     String message = "Motor: stopping "; 
     ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Stopping; 
     checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-    Report(this->targetSpeed, activityTag, message);
+    Report(this->targetSpeed, this->currentAccel, activityTag, message);
     
     // Stop our motor
     //this->stepperMotor.stop();
@@ -150,7 +150,7 @@ void Motor::RunOnce(void)
   
                 // Report
                 String message = "Motor: finished stopping "; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                 
                // this->stepperMotor.setCurrentPosition(0);
                 
@@ -175,7 +175,7 @@ void Motor::RunOnce(void)
              
                 // Report
                 String message = "Motor: reached faster speed"; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                            
                 // the AccelStepper library doesn't need to reset the set speed after accelerating, like decelerating does
 
@@ -195,7 +195,7 @@ void Motor::RunOnce(void)
 
                 // Report
                 String message = "Motor: reached slower speed "; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                 
                 this->stepperMotor.setMaxSpeed(this->targetSpeed);
                 this->stepperMotor.move(Motor::nSteps);
@@ -253,8 +253,9 @@ long Motor::RoundUp(long currentPos, long stepsToStop, int multiple)
   }
 }
 
-void setAccel(float this->currentAccel)
+void Motor::setAccel(float input_accel)
 {
-   this->stepperMotor.setAcceleration(this->currentAccel);
+   this->stepperMotor.setAcceleration(input_accel);
+   this->currentAccel = input_accel;
     
 }

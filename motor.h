@@ -33,9 +33,6 @@ class Motor
 
         // The next target speed
         float targetSpeed = 0;
-
-        // The current acceleration.
-        float currentAccel; 
         
         // Keep track of if sleep pin is on or not.
         bool awakeState;
@@ -45,6 +42,9 @@ class Motor
         
         // Declare the stepper acceleration, set to a default.
         static constexpr const float StepperAccell = 800;
+
+         // The current acceleration.
+        float currentAccel; 
         
         // Give the function the previous stage's probe status.
         void Start(float speed, Probe probe);
