@@ -61,7 +61,7 @@ struct time_outputs randomizeTime(void)
 }
 
 // Creates a function that randomizes the speed order
-static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t StartRestTime)
+static void randomizeSpeed(time_outputs randomTime)
 {
     // Creates a random seed for random sequence generator.
     randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
@@ -92,13 +92,32 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
     }
 }
 
+// Creates a function that randomizes the speed order
+static void randomizeAccel(time_outputs randomTime)
+{
+    // Creates a random seed for random sequence generator.
+    randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
+  
+    // Don't include index "0" because that is the initial rest period. 
+    for (size_t i = 1; i <= randomTime.count ; i++)
+    {
+        // Pick a random index within the speed array
+        size_t j = random(0, ARRAY_SIZE(allAccels));
+    
+        // Place in parameter array
+        stageParameters[i].accel = allAccels[j];
+    }
+}
+
 // A function that writes out what goes to the serial monitor.
-void Report(float targetSpeed, int activityTag, String message)
+void Report(float targetSpeed, float accel, int activityTag, String message)
 {
     CurrentTime=millis()-globalStartTime; 
     Serial.print(String(CurrentTime)); 
     Serial.print(", "); 
     Serial.print(String(targetSpeed));
+    Serial.print(", "); 
+    Serial.print(String(accel));
     Serial.print(", "); 
     Serial.print(activityTag); 
     Serial.print(", "); 
