@@ -16,8 +16,11 @@
 
 // Paramters that can be edited. 
 
-// write out what speeds you want to include; 
-static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
+// write out what speeds you want to include (steps/s); 
+static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
+
+// write out what accelerations you want to include (steps/s/s):
+static constexpr int allAccels[] = {400, 600, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 45000;
