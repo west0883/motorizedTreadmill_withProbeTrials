@@ -252,3 +252,9 @@ long Motor::RoundUp(long currentPos, long stepsToStop, int multiple)
     return ((holder + multiple - 1) / multiple) * multiple - currentPos;
   }
 }
+
+void setAccel(float this->currentAccel)
+{
+   this->stepperMotor.setAcceleration(this->currentAccel);
+    
+}

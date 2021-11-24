@@ -17,6 +17,8 @@ class Motor
             Stopping,
             Accelerating
         };
+
+        AccelStepper stepperMotor;
         
         enum State state = State::Idle;
 
@@ -33,14 +35,13 @@ class Motor
         float targetSpeed = 0;
 
         // The current acceleration.
+        float currentAccel; 
         
         // Keep track of if sleep pin is on or not.
         bool awakeState;
         
     public:
         Motor(void);
-
-        AccelStepper stepperMotor;
         
         // Declare the stepper acceleration, set to a default.
         static constexpr const float StepperAccell = 800;
@@ -48,6 +49,9 @@ class Motor
         // Give the function the previous stage's probe status.
         void Start(float speed, Probe probe);
         void Stop(Probe probe);
+
+        // Make a function to change the acceleration (without making AccelStepper object public)
+        void setAccel(float currentAccel); 
         
         void RunOnce(void);
         void RoundedStop(void);
