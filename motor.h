@@ -40,6 +40,9 @@ class Motor
     public:
         Motor(void);
 
+        // Declare the stepper acceleration, set to a default.
+        static constexpr const float StepperAccell = 800;
+        
         // Give the function the previous stage's probe status.
         void Start(float speed, Probe probe);
         void Stop(Probe probe);
