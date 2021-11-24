@@ -1,4 +1,5 @@
 #include "randomizing_functions.h"
+#include <limits>
 
 // Helper functions run at setup. 
 
@@ -202,31 +203,24 @@ void HeaderReport(int count)
   }  
 }
 
-int min_speed getMinSpeed(void)
+int getMinSpeed(void)
 {
-  // Find first non-zero elemet of allSpeeds to use as a default minimum
-  for (int i = 0; i < ARRAY_SIZE(allSpeeds) - 1; i++)
-  {
-    if (allSpeeds[i] != 0)
+    // A trick to find the maximum possible value for an int, so everything afterwards is always less than that
+    int min_speed = std::numeric_limits<int>::max();
+    
+    for (std::size_t i = 0; i < ARRAY_SIZE(allSpeeds); i++)
     {
-      minimum = allSpeeds[i]; 
-      start_index = i;
-      break; 
+        if ((allSpeeds[i] > 0) && (allSpeeds[i] < min_speed))
+        {
+            min_speed = allSpeeds[i];
+        }
     }
-  } 
-  
-  for (int i = start_index; i < ARRAY_SIZE(allSpeeds) - 1; i++)
-  {   
-    // Don't include rest (speed = 0); 
-    if (allSpeeds[i] == 0)
+    
+    // If our array was broken, make sure we return a reasonable default
+    if (min_speed == std::numeric_limits<int>::max())
     {
-      continue
-    } 
-    else 
-    { 
-      min_speed = min(min_speed, allSpeeds[i]); 
-    } 
-  }
-
-  return min_speed;
+        min_speed = 2000;
+    }
+    
+    return min_speed;
 }
