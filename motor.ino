@@ -17,6 +17,9 @@ Motor::Motor(void):
     digitalWrite(Motor::SleepPowerPin, HIGH);
     awakeState = false;
     this->stepperMotor.setCurrentPosition(0);
+ 
+    //Set a default acceleration
+    this->stepperMotor.setAcceleration(Motor::StepperAccell);
 }
 
 /**
@@ -225,7 +228,7 @@ void Motor::RoundedStop(void)
       
       // Get the current position. 
       long currentPos = this->stepperMotor.currentPosition(); 
-      long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->StepperAccell)) + 1; // Equation 16 (+integer rounding)
+      long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->currentAccel)) + 1; // Equation 16 (+integer rounding)
       
       long roundedSteps = RoundUp(currentPos, stepsToStop, 4);
       
@@ -257,5 +260,4 @@ void Motor::setAccel(float input_accel)
 {
    this->stepperMotor.setAcceleration(input_accel);
    this->currentAccel = input_accel;
-    
 }

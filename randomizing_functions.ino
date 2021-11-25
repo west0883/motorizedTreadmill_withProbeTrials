@@ -104,30 +104,31 @@ static void randomizeAccel(time_outputs randomTime)
 
         // Find the minimum speed 
         int min_speed = getMinSpeed(); 
+        Serial.println (min_speed);
         
         // Don't include index "0" because that is the initial rest period. 
         for (size_t i = 1; i <= randomTime.count ; i++)
         {
            // Use previous stage's speed difference (accel set at start of new stage, when motor transition begins)
     
-           // If less than the minimum speed, then it's a start or stop
-           if (stageParameters[i - 1].speed_difference < min_speed)
+           // If less than the minimum speed, then assume it's a speed change
+           if (abs(stageParameters[i - 1].speed_difference) < min_speed)
            {
             // Pick a random index within the speed array
-            size_t j = random(0, ARRAY_SIZE(accelsStartStop));
-        
-            // Place in parameter array
-            stageParameters[i].accel = accelsStartStop[j];
-           }
-    
-           // Otherwise, is assumed to be a speed change.
-           else
-           {
-             // Pick a random index within the speed array
             size_t j = random(0, ARRAY_SIZE(accelsSpeedChange));
         
             // Place in parameter array
             stageParameters[i].accel = accelsSpeedChange[j];
+           }
+    
+           // Otherwise, is assumed to be a start or stop.
+           else
+           {
+             // Pick a random index within the speed array
+            size_t j = random(0, ARRAY_SIZE(accelsStartStop));
+        
+            // Place in parameter array
+            stageParameters[i].accel = accelsStartStop[j];
            }
         }
     }

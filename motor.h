@@ -19,7 +19,7 @@ class Motor
         };
 
         AccelStepper stepperMotor;
-        
+
         enum State state = State::Idle;
 
         // Which pin controls our sleeping
@@ -31,6 +31,9 @@ class Motor
         // The arbitrary number of steps you want the motor to aim for 
         static constexpr const long nSteps = LONG_MAX;
 
+        // Declare the stepper acceleration, set to a default.
+        static constexpr const float StepperAccell = 800;
+
         // The next target speed
         float targetSpeed = 0;
         
@@ -39,9 +42,6 @@ class Motor
         
     public:
         Motor(void);
-        
-        // Declare the stepper acceleration, set to a default.
-        static constexpr const float StepperAccell = 800;
 
          // The current acceleration.
         float currentAccel; 
