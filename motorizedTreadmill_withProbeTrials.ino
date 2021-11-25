@@ -17,13 +17,13 @@
 // Paramters that can be edited. 
 
 // write out what speeds you want to include (steps/s); 
-static constexpr int allSpeeds[] = {0, 0, 2000, 2400, 2800};
+static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
 
 // write out what accelerations you want to include for starts and stops(steps/s/s):
-static constexpr int accelsStartStop[] = {0, 400, 600, 800}; 
+static constexpr int accelsStartStop[] = {400, 600, 800}; 
 
 // What accelerations you want to include for speed changes (steps/s/s):
-static constexpr int accelsSpeedChange[] = {0, 200, 400, 800}; 
+static constexpr int accelsSpeedChange[] = {100, 200, 400, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 15000;
@@ -50,7 +50,7 @@ static const bool useTrigger = false;
 static const bool useMaintaining = true; 
 
 // Make a flag for if probe trials should be used.
-static const bool useProbeTrials = true;
+static const bool useProbeTrials = false;
 
 // Make a flag for if random accelerations should be used.
 static const bool useAccels = true; 
