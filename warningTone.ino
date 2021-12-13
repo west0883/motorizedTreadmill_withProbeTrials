@@ -138,7 +138,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
       Probe_Messages probe_messages = getProbeMessages(stageParameters[currentStage].probe, probe_subtype1, probe_subtype2);
 
       // Report
-      Report(stageParameters[currentStage].speed, probe_messages.activity_tag, probe_messages.probe_string);
+      Report(stageParameters[currentStage].speed, stageParameters[currentStage].accel, probe_messages.activity_tag, probe_messages.probe_string);
 
       // Output the probe toneParameters
       return probe_messages.toneParameters;    
@@ -276,7 +276,7 @@ struct WarningTone::ToneParameters WarningTone::CalculateToneParameters(int curr
             message = probe_messages.probe_string;
         }
 
-        Report(stageParameters[currentStage].speed, activityTag, message);
+        Report(stageParameters[currentStage].speed, stageParameters[currentStage].accel, activityTag, message);
         return result; 
    }
 }

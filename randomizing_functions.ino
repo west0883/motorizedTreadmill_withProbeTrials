@@ -1,4 +1,5 @@
 #include "randomizing_functions.h"
+#include <limits>
 
 // Helper functions run at setup. 
 
@@ -61,7 +62,7 @@ struct time_outputs randomizeTime(void)
 }
 
 // Creates a function that randomizes the speed order
-static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t StartRestTime)
+static void randomizeSpeed(time_outputs randomTime)
 {
     // Creates a random seed for random sequence generator.
     randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
@@ -92,14 +93,61 @@ static void randomizeSpeed(time_outputs randomTime, uint32_t TotalTime, uint32_t
     }
 }
 
+// Creates a function that randomizes the speed order. Make dependent on speedDiff value to determine what kind of change it is.
+static void randomizeAccel(time_outputs randomTime)
+{
+    // Only do this if user has said they want to randomize the accelerations.
+    if (useAccels)
+    {
+        // Creates a random seed for random sequence generator.
+        randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
+
+        // Find the minimum speed 
+        int min_speed = getMinSpeed(); 
+        Serial.println (min_speed);
+        
+        // Don't include index "0" because that is the initial rest period. 
+        for (size_t i = 1; i <= randomTime.count ; i++)
+        {
+           // Use previous stage's speed difference (accel set at start of new stage, when motor transition begins)
+    
+           // If less than the minimum speed, then assume it's a speed change
+           if (abs(stageParameters[i - 1].speed_difference) < min_speed)
+           {
+            // Pick a random index within the speed array
+            size_t j = random(0, ARRAY_SIZE(accelsSpeedChange));
+        
+            // Place in parameter array
+            stageParameters[i].accel = accelsSpeedChange[j];
+           }
+    
+           // Otherwise, is assumed to be a start or stop.
+           else
+           {
+             // Pick a random index within the speed array
+            size_t j = random(0, ARRAY_SIZE(accelsStartStop));
+        
+            // Place in parameter array
+            stageParameters[i].accel = accelsStartStop[j];
+           }
+        }
+    }
+}
+
 // A function that writes out what goes to the serial monitor.
-void Report(float targetSpeed, int activityTag, String message)
+void Report(float targetSpeed, float accel, int activityTag, String message)
 {
     CurrentTime=millis()-globalStartTime; 
     Serial.print(String(CurrentTime)); 
     Serial.print(", "); 
     Serial.print(String(targetSpeed));
     Serial.print(", "); 
+    
+    if (useAccels){
+      Serial.print(String(accel));
+      Serial.print(", "); 
+    }
+    
     Serial.print(activityTag); 
     Serial.print(", "); 
     Serial.println(message); 
@@ -112,19 +160,35 @@ void HeaderReport(int count)
   Serial.println(count);
 
   // report speeds and times HeaderReport(int randomTime.count); 
-  Serial.print("Speed, Time");
+  Serial.print("Time, Speed");
+
+  if (useAccels)
+  {
+     Serial.print(", Acceleration");
+  }
+  
   if (useProbeTrials){
     Serial.print(", Probe type"); 
   }
-  Serial.println();
-  
-  for (size_t i = 0; i <= count ; i++)
-  {
-    Serial.print(stageParameters[i].speed);
-    Serial.print(", ");     
-    Serial.print(stageParameters[i].duration);
 
-    if (useProbeTrials){
+  Serial.println();
+ 
+  for (size_t i = 0; i <= count ; i++)
+  {  
+    Serial.print(stageParameters[i].duration);
+    Serial.print(", ");
+    
+    Serial.print(stageParameters[i].speed);
+    
+
+    if (useAccels)
+    {
+      Serial.print(", ");
+      Serial.print(stageParameters[i].accel);
+    }
+
+    if (useProbeTrials)
+    {
 
       if (stageParameters[i].probe == Probe::NoWarning)
       {
@@ -146,4 +210,26 @@ void HeaderReport(int count)
     }
     Serial.println();
   }  
+}
+
+int getMinSpeed(void)
+{
+    // A trick to find the maximum possible value for an int, so everything afterwards is always less than that
+    int min_speed = std::numeric_limits<int>::max();
+    
+    for (std::size_t i = 0; i < ARRAY_SIZE(allSpeeds); i++)
+    {
+        if ((allSpeeds[i] > 0) && (allSpeeds[i] < min_speed))
+        {
+            min_speed = allSpeeds[i];
+        }
+    }
+    
+    // If our array was broken, make sure we return a reasonable default
+    if (min_speed == std::numeric_limits<int>::max())
+    {
+        min_speed = 2000;
+    }
+    
+    return min_speed;
 }

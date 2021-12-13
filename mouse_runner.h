@@ -25,6 +25,9 @@ class MouseRunner
             // The difference between the current stage's speed and the speed of the next stage.
             float speed_difference;
 
+            // The accel for the current stage (the speed change at the beginning of the stage).
+            float accel; 
+
             // A marker for if this stage is a probe trial & what kind.
             enum Probe probe; 
         };

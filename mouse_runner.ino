@@ -65,6 +65,13 @@ void MouseRunner::Stop(void)
  */
 void MouseRunner::StartNextStage(void)
 {
+    // If using varying accelerations, set acceleration for this stage. 
+    
+    if (useAccels)
+    {
+      this->motor.setAccel(this->stageParameters[this->currentStage].accel);
+    }
+    
     // We're in a new stage, so switch the tone warning played flag back to false.
     this->warningTone.playTonesStarted = false;
                                  

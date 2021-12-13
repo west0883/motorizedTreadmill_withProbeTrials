@@ -16,8 +16,14 @@
 
 // Paramters that can be edited. 
 
-// write out what speeds you want to include; 
-static constexpr int allSpeeds[] ={0, 2000, 2400, 2800};
+// write out what speeds you want to include (steps/s); 
+static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
+
+// write out what accelerations you want to include for starts and stops(steps/s/s):
+static constexpr int accelsStartStop[] = {400, 600, 800}; 
+
+// What accelerations you want to include for speed changes (steps/s/s):
+static constexpr int accelsSpeedChange[] = {100, 200, 400, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 15000;
@@ -32,19 +38,22 @@ uint32_t TotalTime = 330000;
 uint32_t WarnTime = 5000;
 
 // The amount of minimum time you want per stage (includeing the warning time and posible transition times). (IN SECONDS)
-int MinStageTime = 12;
+int MinStageTime = 15;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
 int MaxStageTime = 35;
 
 // Make a flag for if an input trigger (from Spike2) should be used.
-static const bool useTrigger = true; 
+static const bool useTrigger = false; 
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = true; 
 
 // Make a flag for if probe trials should be used.
 static const bool useProbeTrials = false;
+
+// Make a flag for if random accelerations should be used.
+static const bool useAccels = true; 
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
 static const double probability = 0.10; 
@@ -79,8 +88,11 @@ void setup(void)
   struct time_outputs randomTime = randomizeTime();
 
   // Randomize speed. Edits stageParameters.
-  randomizeSpeed(randomTime, TotalTime, StartRestTime);
+  randomizeSpeed(randomTime);
 
+  // Randomize accelerations. Edits stageParameters. 
+  randomizeAccel(randomTime); 
+  
   // Randomizes probe trials. Edits stageParameters. 
   probeTrials(useProbeTrials, randomTime.count, probability);
 

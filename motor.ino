@@ -16,8 +16,10 @@ Motor::Motor(void):
     pinMode(Motor::SleepPowerPin, OUTPUT);
     digitalWrite(Motor::SleepPowerPin, HIGH);
     awakeState = false;
-    this->stepperMotor.setAcceleration(Motor::StepperAccell);
     this->stepperMotor.setCurrentPosition(0);
+ 
+    //Set a default acceleration
+    this->stepperMotor.setAcceleration(Motor::StepperAccell);
 }
 
 /**
@@ -50,7 +52,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: accelerating"; 
         ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Accelerating; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
 
@@ -70,7 +72,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: decelerating"; 
          ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Decelerating; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
 
         //this->stepperMotor.stop();
         this->RoundedStop();
@@ -87,7 +89,7 @@ void Motor::Start(float speed, Probe probe)
         String message = "Motor: maintaining current speed "; 
         ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Maintaining; 
         checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-        Report(this->targetSpeed, activityTag, message);
+        Report(this->targetSpeed, this->currentAccel, activityTag, message);
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
         this->stepperMotor.move(Motor::nSteps);
@@ -112,7 +114,7 @@ void Motor::Stop(Probe probe)
     String message = "Motor: stopping "; 
     ProbeSubtype2 probe_subtype2 = ProbeSubtype2::Stopping; 
     checkProbeMotor(activityTag, message, probe, probe_subtype2); 
-    Report(this->targetSpeed, activityTag, message);
+    Report(this->targetSpeed, this->currentAccel, activityTag, message);
     
     // Stop our motor
     //this->stepperMotor.stop();
@@ -151,7 +153,7 @@ void Motor::RunOnce(void)
   
                 // Report
                 String message = "Motor: finished stopping "; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                 
                // this->stepperMotor.setCurrentPosition(0);
                 
@@ -176,7 +178,7 @@ void Motor::RunOnce(void)
              
                 // Report
                 String message = "Motor: reached faster speed"; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                            
                 // the AccelStepper library doesn't need to reset the set speed after accelerating, like decelerating does
 
@@ -196,7 +198,7 @@ void Motor::RunOnce(void)
 
                 // Report
                 String message = "Motor: reached slower speed "; 
-                Report(this->targetSpeed, activityTag, message);
+                Report(this->targetSpeed, this->currentAccel, activityTag, message);
                 
                 this->stepperMotor.setMaxSpeed(this->targetSpeed);
                 this->stepperMotor.move(Motor::nSteps);
@@ -226,7 +228,7 @@ void Motor::RoundedStop(void)
       
       // Get the current position. 
       long currentPos = this->stepperMotor.currentPosition(); 
-      long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->StepperAccell)) + 1; // Equation 16 (+integer rounding)
+      long stepsToStop = (long)((this->stepperMotor.speed() *this->stepperMotor.speed()) / (2.0 *this->currentAccel)) + 1; // Equation 16 (+integer rounding)
       
       long roundedSteps = RoundUp(currentPos, stepsToStop, 4);
       
@@ -252,4 +254,10 @@ long Motor::RoundUp(long currentPos, long stepsToStop, int multiple)
     // Round holder number, subtract out the current position. Should return a whole-step number that takes both into account.  
     return ((holder + multiple - 1) / multiple) * multiple - currentPos;
   }
+}
+
+void Motor::setAccel(float input_accel)
+{
+   this->stepperMotor.setAcceleration(input_accel);
+   this->currentAccel = input_accel;
 }
