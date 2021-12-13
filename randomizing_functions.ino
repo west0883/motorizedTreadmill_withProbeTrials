@@ -139,8 +139,13 @@ void Report(float targetSpeed, float accel, int activityTag, String message)
 {
       
     CurrentTime=millis()-globalStartTime; 
-    Serial.print(trial_number);
-    Serial.print(", ");
+
+    if (useTrialNumber)
+    {
+      Serial.print(trial_number);
+      Serial.print(", ");
+    }
+    
     Serial.print(String(CurrentTime)); 
     Serial.print(", "); 
     Serial.print(String(targetSpeed));
@@ -159,8 +164,11 @@ void Report(float targetSpeed, float accel, int activityTag, String message)
 void HeaderReport(int count)
 {
   // Report trial number
-  Serial.print("Trial ");
-  Serial.println(trial_number): 
+  if (useTrialNumber) 
+  {
+    Serial.print("Trial ");
+    Serial.println(trial_number); 
+  }
   
   // Report total number of stages
   Serial.print("Total number of stages: ");
