@@ -93,7 +93,7 @@ void Motor::Start(float speed, Probe probe)
         
         this->stepperMotor.setMaxSpeed(this->targetSpeed);
         this->stepperMotor.move(Motor::nSteps);
-        this->state = State:: Running;
+        this->state = State::Running;
     }
 }
 
