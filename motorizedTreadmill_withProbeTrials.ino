@@ -89,6 +89,9 @@ void setup(void)
 {
   pinMode(A0, INPUT);  // for the trigger
   Serial.begin(115200);
+
+  // Create a random seed for random sequence generator.
+  randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
   
   // Randomize time. Edits stageParameters.
   struct time_outputs randomTime = randomizeTime();

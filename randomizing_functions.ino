@@ -6,8 +6,6 @@
 //Writes a function that randomizes the time spent in each stage. 
 struct time_outputs randomizeTime(void) 
   {
-  // Create a random seed for random sequence generator.
-  randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
 
   // Initialize the variable you'll use to keep track of how much of the working time has been used.
   uint32_t cumulativeTime = 0;
@@ -63,10 +61,7 @@ struct time_outputs randomizeTime(void)
 
 // Creates a function that randomizes the speed order
 static void randomizeSpeed(time_outputs randomTime)
-{
-    // Creates a random seed for random sequence generator.
-    randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
-  
+{  
     // Use the counter from above. Don't include "count", because that is the final rest period.  
     // Don't include index "0" because that is the initial rest period. 
     for (size_t i = 1; i < randomTime.count ; i++)
@@ -99,9 +94,6 @@ static void randomizeAccel(time_outputs randomTime)
     // Only do this if user has said they want to randomize the accelerations.
     if (useAccels)
     {
-        // Creates a random seed for random sequence generator.
-        randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
-
         // Find the minimum speed 
         int min_speed = getMinSpeed(); 
         Serial.println (min_speed);
