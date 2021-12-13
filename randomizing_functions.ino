@@ -96,7 +96,6 @@ static void randomizeAccel(time_outputs randomTime)
     {
         // Find the minimum speed 
         int min_speed = getMinSpeed(); 
-        Serial.println (min_speed);
         
         // Don't include index "0" because that is the initial rest period. 
         for (size_t i = 1; i <= randomTime.count ; i++)
