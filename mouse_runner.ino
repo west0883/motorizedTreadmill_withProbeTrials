@@ -97,9 +97,11 @@ void MouseRunner::StartNextStage(void)
     this->state = State::Running;
 }
 
-
-
-
+// Starts a new trial.
+void MouseRunner::StartNew(void)
+{
+  
+}
 /**
  * \brief Handles the mouse runner
  *
@@ -191,14 +193,15 @@ void MouseRunner::RunOnce(void)
             // Change finished flag to true
             this->everFinished = true; 
 
-            // If we're using trial number updates, go to a new state that re-starts everything without going through the setup loop again.
+            // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
             if (useTrialNumber) 
             {
-              
+              this->StartNew(); 
             }
             
             // Nothing to do anymore
             break;
         }
+      
     }
 }

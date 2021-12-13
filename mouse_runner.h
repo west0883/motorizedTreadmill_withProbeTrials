@@ -43,6 +43,7 @@ class MouseRunner
 
             // We're done running the mouse
             Done,
+
         };
         
         enum State state = State::Waiting;
@@ -89,5 +90,5 @@ class MouseRunner
         void Start(void);
         void Stop(void);
         void RunOnce(void);
-        
+        void StartNew(void);
 };
