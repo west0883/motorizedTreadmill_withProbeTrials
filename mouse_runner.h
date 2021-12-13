@@ -90,5 +90,5 @@ class MouseRunner
         void Start(void);
         void Stop(void);
         void RunOnce(void);
-        void StartNew(void);
+        void StartNewTrial(void);
 };
