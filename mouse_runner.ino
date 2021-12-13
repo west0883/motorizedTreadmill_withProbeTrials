@@ -98,8 +98,11 @@ void MouseRunner::StartNextStage(void)
 }
 
 // Starts a new trial. Runs all the start-up needs for a trial. Is called from "Done" state in MouseRunner::RunOnce, only if useTrialNumber == true.
-void MouseRunner::StartNew(void)
-{
+void MouseRunner::StartNewTrial(void)
+{   
+    // Increase trial number.
+    trial_number += 1;
+    
     // Randomize time. Edits stageParameters.
     struct time_outputs randomTime = randomizeTime();
   
@@ -218,7 +221,7 @@ void MouseRunner::RunOnce(void)
             // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
             if (useTrialNumber) 
             {
-              this->StartNew(); 
+              this->StartNewTrial(); 
             }
             
             // Nothing to do anymore
