@@ -137,7 +137,10 @@ static void randomizeAccel(time_outputs randomTime)
 // A function that writes out what goes to the serial monitor.
 void Report(float targetSpeed, float accel, int activityTag, String message)
 {
+      
     CurrentTime=millis()-globalStartTime; 
+    Serial.print(trial_number);
+    Serial.print(", ");
     Serial.print(String(CurrentTime)); 
     Serial.print(", "); 
     Serial.print(String(targetSpeed));
@@ -155,7 +158,11 @@ void Report(float targetSpeed, float accel, int activityTag, String message)
 
 void HeaderReport(int count)
 {
-   // Report total number of stages
+  // Report trial number
+  Serial.print("Trial ");
+  Serial.println(trial_number): 
+  
+  // Report total number of stages
   Serial.print("Total number of stages: ");
   Serial.println(count);
 
