@@ -97,10 +97,32 @@ void MouseRunner::StartNextStage(void)
     this->state = State::Running;
 }
 
-// Starts a new trial.
+// Starts a new trial. Runs all the start-up needs for a trial. Is called from "Done" state in MouseRunner::RunOnce, only if useTrialNumber == true.
 void MouseRunner::StartNew(void)
 {
+    // Randomize time. Edits stageParameters.
+    struct time_outputs randomTime = randomizeTime();
   
+    // Randomize speed. Edits stageParameters.
+    randomizeSpeed(randomTime);
+  
+    // Randomize accelerations. Edits stageParameters. 
+    randomizeAccel(randomTime); 
+    
+    // Randomizes probe trials. Edits stageParameters. 
+    probeTrials(useProbeTrials, randomTime.count, probability);
+  
+    // Report stages to be run
+    HeaderReport(randomTime.count);
+  
+    // If using a trigger, print out that it's waiting.
+    if (useTrigger)
+    {
+      Serial.println("Waiting for Trigger");
+    }
+
+    // Switch to state waiting, which will start the next trial.
+    this->state = State::Waiting;
 }
 /**
  * \brief Handles the mouse runner
