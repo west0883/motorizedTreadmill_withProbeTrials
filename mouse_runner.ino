@@ -190,6 +190,12 @@ void MouseRunner::RunOnce(void)
             }
             // Change finished flag to true
             this->everFinished = true; 
+
+            // If we're using trial number updates, go to a new state that re-starts everything without going through the setup loop again.
+            if (useTrialNumber) 
+            {
+              
+            }
             
             // Nothing to do anymore
             break;
