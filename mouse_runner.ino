@@ -102,6 +102,9 @@ void MouseRunner::StartNewTrial(void)
 {   
     // Increase trial number.
     trial_number += 1;
+
+    // Reset currentStage to 0; 
+    currentStage = 0;
     
     // Randomize time. Edits stageParameters.
     struct time_outputs randomTime = randomizeTime();
@@ -126,6 +129,9 @@ void MouseRunner::StartNewTrial(void)
 
     // Switch to state waiting, which will start the next trial.
     this->state = State::Waiting;
+
+    // Re-set the Done state "ever finished" piece.
+    this->everFinished = false; 
 }
 /**
  * \brief Handles the mouse runner
@@ -141,6 +147,8 @@ void MouseRunner::RunOnce(void)
     {
         case State::Waiting:
         {  
+
+           Serial.println("waiting state");
            // If useing a trigger (useTrigger == true), check for a trigger input
            if (useTrigger) 
            {
@@ -159,6 +167,7 @@ void MouseRunner::RunOnce(void)
               globalStartTime = millis();
               this->Start();
             }
+
             break;
         }
 
@@ -214,16 +223,17 @@ void MouseRunner::RunOnce(void)
               Serial.print(String(CurrentTime)); 
               Serial.print(", "); 
               Serial.println("Done.");
+
+              // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
+              if (useTrialNumber) 
+              {
+                this->StartNewTrial(); 
+              }
+              
             }
             // Change finished flag to true
             this->everFinished = true; 
 
-            // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
-            if (useTrialNumber) 
-            {
-              this->StartNewTrial(); 
-            }
-            
             // Nothing to do anymore
             break;
         }
