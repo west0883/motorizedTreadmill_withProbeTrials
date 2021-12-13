@@ -16,6 +16,12 @@
 
 // Paramters that can be edited. 
 
+// Flag for if the trial number count (used with Putty) should be used. 
+bool useTrialNumber = true;
+
+// Initial trial number to be displayed with Putty. Is updated automatically at the end of each complete trial.
+int trial_number = 1;
+
 // write out what speeds you want to include (steps/s); 
 static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
 
