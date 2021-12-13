@@ -23,7 +23,7 @@ bool useTrialNumber = true;
 int trial_number = 1;
 
 // write out what speeds you want to include (steps/s); 
-static constexpr int allSpeeds[] = {0, 2000, 2400, 2800};
+static constexpr int allSpeeds[] = {0, 1600, 2000, 2400, 2800};
 
 // write out what accelerations you want to include for starts and stops(steps/s/s):
 static constexpr int accelsStartStop[] = {400, 600, 800}; 
@@ -38,7 +38,7 @@ uint32_t StartRestTime = 15000;
 uint32_t MinEndRestTime = 15000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 330000;
+uint32_t TotalTime = 150000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 5000;
