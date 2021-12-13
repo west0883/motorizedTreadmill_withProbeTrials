@@ -104,7 +104,7 @@ void MouseRunner::StartNewTrial(void)
     trial_number += 1;
 
     // Reset currentStage to 0; 
-    currentStage = 0;
+    this->currentStage = 0;
     
     // Randomize time. Edits stageParameters.
     struct time_outputs randomTime = randomizeTime();
