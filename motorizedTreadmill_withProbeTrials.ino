@@ -62,7 +62,7 @@ static const bool useProbeTrials = false;
 static const bool useAccels = true; 
 
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
-static const double probability = 0.10; 
+static const double probability = 0.20; 
 
 // Initialize the time stage parameters array with a lot of possible entries
 struct MouseRunner::StageParameters stageParameters[25];
