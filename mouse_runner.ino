@@ -130,8 +130,7 @@ void MouseRunner::StartNewTrial(void)
     // Switch to state waiting, which will start the next trial.
     this->state = State::Waiting;
 
-    // Re-set the Done state "ever finished" piece.
-    this->everFinished = false; 
+    
 }
 /**
  * \brief Handles the mouse runner
@@ -147,8 +146,9 @@ void MouseRunner::RunOnce(void)
     {
         case State::Waiting:
         {  
-
-           Serial.println("waiting state");
+           // Re-set the Done state "ever finished" piece.
+           this->everFinished = false; 
+           
            // If useing a trigger (useTrigger == true), check for a trigger input
            if (useTrigger) 
            {
@@ -216,6 +216,7 @@ void MouseRunner::RunOnce(void)
         
         case State::Done:
         {   
+
            // If This is the first time the code has entered the "Done" stage,     
             if (this->everFinished == false){
               
@@ -223,7 +224,8 @@ void MouseRunner::RunOnce(void)
               Serial.print(String(CurrentTime)); 
               Serial.print(", "); 
               Serial.println("Done.");
-
+              Serial.println("");
+          
               // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
               if (useTrialNumber) 
               {

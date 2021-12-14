@@ -32,13 +32,13 @@ static constexpr int accelsStartStop[] = {400, 600, 800};
 static constexpr int accelsSpeedChange[] = {100, 200, 400, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
-uint32_t StartRestTime = 15000;
+uint32_t StartRestTime = 10000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
 uint32_t MinEndRestTime = 15000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 150000;
+uint32_t TotalTime = 330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 5000;
