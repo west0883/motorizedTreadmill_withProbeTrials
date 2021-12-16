@@ -205,7 +205,7 @@ void MouseRunner::RunOnce(void)
             this->currentStage++;
 
             // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop           
-            if (this->currentStage > this->stageTotal|| this->stageParameters[this->currentStage].duration == 0)
+            if (this->stageParameters[this->currentStage].duration == 0)
             {
                 this->Stop();
                 break;
