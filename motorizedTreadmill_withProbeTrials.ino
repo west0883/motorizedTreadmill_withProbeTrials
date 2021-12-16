@@ -29,16 +29,16 @@ static constexpr int allSpeeds[] = {0, 1600, 2000, 2400, 2800};
 static constexpr int accelsStartStop[] = {400, 600, 800}; 
 
 // What accelerations you want to include for speed changes (steps/s/s):
-static constexpr int accelsSpeedChange[] = {100, 200, 400, 800}; 
+static constexpr int accelsSpeedChange[] = {200, 400, 800}; 
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
-uint32_t StartRestTime = 10000;
+uint32_t StartRestTime = 45000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
 uint32_t MinEndRestTime = 15000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 100000;
+uint32_t TotalTime = 330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 5000;
@@ -47,7 +47,7 @@ uint32_t WarnTime = 5000;
 int MinStageTime = 15;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
-int MaxStageTime = 20;
+int MaxStageTime = 35;
 
 // Make a flag for if an input trigger (from Spike2) should be used.
 static const bool useTrigger = true; 
