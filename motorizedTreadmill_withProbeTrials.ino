@@ -38,7 +38,7 @@ uint32_t StartRestTime = 10000;
 uint32_t MinEndRestTime = 15000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 330000;
+uint32_t TotalTime = 100000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 5000;
@@ -47,16 +47,16 @@ uint32_t WarnTime = 5000;
 int MinStageTime = 15;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
-int MaxStageTime = 35;
+int MaxStageTime = 20;
 
 // Make a flag for if an input trigger (from Spike2) should be used.
-static const bool useTrigger = false; 
+static const bool useTrigger = true; 
 
 // Make a flag for if maintaining tones should be used; 
 static const bool useMaintaining = true; 
 
 // Make a flag for if probe trials should be used.
-static const bool useProbeTrials = false;
+static const bool useProbeTrials = true;
 
 // Make a flag for if random accelerations should be used.
 static const bool useAccels = true; 
@@ -104,6 +104,8 @@ void setup(void)
   
   // Randomizes probe trials. Edits stageParameters. 
   probeTrials(useProbeTrials, randomTime.count, probability);
+
+  mouseRunner.stageTotal = randomTime.count;
 
   // Report stages to be run
   HeaderReport(randomTime.count);
