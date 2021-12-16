@@ -12,7 +12,7 @@ class MouseRunner
 {
     public:
 
-        uint32_t globalStartTime; 
+        //uint32_t globalStartTime; 
         
         struct StageParameters
         {
@@ -32,6 +32,8 @@ class MouseRunner
             enum Probe probe; 
         };
 
+        int stageTotal; 
+
     private:
         enum class State
         {
@@ -50,7 +52,6 @@ class MouseRunner
 
         // Our stages
         const struct StageParameters *stageParameters;
-        int stageTotal;
 
         // When we started our last stage
         uint32_t timeStageStarted;

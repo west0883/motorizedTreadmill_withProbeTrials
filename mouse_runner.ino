@@ -117,6 +117,8 @@ void MouseRunner::StartNewTrial(void)
     
     // Randomizes probe trials. Edits stageParameters. 
     probeTrials(useProbeTrials, randomTime.count, probability);
+
+    this->stageTotal = randomTime.count; 
   
     // Report stages to be run
     HeaderReport(randomTime.count);
@@ -164,6 +166,7 @@ void MouseRunner::RunOnce(void)
             else
             { 
               Serial.println("Starting Mouse Runner");
+              
               globalStartTime = millis();
               this->Start();
             }
@@ -201,8 +204,8 @@ void MouseRunner::RunOnce(void)
             // Note we're starting another stage
             this->currentStage++;
 
-            // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop
-            if (this->currentStage >= this->stageTotal || this->stageParameters[currentStage].duration == 0)
+            // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop           
+            if (this->currentStage > this->stageTotal|| this->stageParameters[this->currentStage].duration == 0)
             {
                 this->Stop();
                 break;
@@ -220,7 +223,7 @@ void MouseRunner::RunOnce(void)
            // If This is the first time the code has entered the "Done" stage,     
             if (this->everFinished == false){
               
-              // Tell user that stack is done. 
+              // Tell user that trial is done. 
               Serial.print(String(CurrentTime)); 
               Serial.print(", "); 
               Serial.println("Done.");
