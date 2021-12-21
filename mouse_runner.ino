@@ -102,15 +102,14 @@ void MouseRunner::StartNewTrial(void)
     // Increase trial number.
     trial_number += 1;
 
-    // Reset stageParameters (puts everything at 0).
-    struct MouseRunner::StageParameters stageParameters[possible_stages];
-
     // Reset currentStage to 0; 
     this->currentStage = 0;
     
     // Randomize time. Edits stageParameters.
     struct time_outputs randomTime = randomizeTime();
-  
+
+    this->stageTotal = randomTime.count; 
+    
     // Randomize speed. Edits stageParameters.
     randomizeSpeed(randomTime);
   
@@ -120,8 +119,6 @@ void MouseRunner::StartNewTrial(void)
     // Randomizes probe trials. Edits stageParameters. 
     probeTrials(useProbeTrials, randomTime.count, probability);
 
-    this->stageTotal = randomTime.count; 
-  
     // Report stages to be run
     HeaderReport(randomTime.count);
   
@@ -133,8 +130,6 @@ void MouseRunner::StartNewTrial(void)
 
     // Switch to state waiting, if not already at waiting, which will start the next trial.
     this->state = State::Waiting;
-
-    
 }
 /**
  * \brief Handles the mouse runner
@@ -183,8 +178,8 @@ void MouseRunner::RunOnce(void)
             {
     
               // See if a tone should be played --> time has entered into the "warning" time window & the flag "toneStarted" has not been switched to "true"; 
-              // And the next stage's duration is not 0 (which happens if we hit the end of the stages)
-              if (MouseRunner::TimeElapsed(this->timeStageStarted) > stageParameters[this->currentStage].duration - WarnTime && stageParameters[this->currentStage + 1].duration != 0)
+              // And the next stage is not greater than the total stages (which happens if we hit the end of the stages)
+              if (MouseRunner::TimeElapsed(this->timeStageStarted) > stageParameters[this->currentStage].duration - WarnTime && this->currentStage + 1 <= this->stageTotal)
               {
                  // If this is the first time the tones are being called (if playTonesStared is false)
                  if (this->warningTone.playTonesStarted == false){
@@ -207,10 +202,7 @@ void MouseRunner::RunOnce(void)
             this->currentStage++;
 
             // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop  
-            Serial.print("duration = ");
-            Serial.println(stageParameters[this->currentStage].duration);
-                     
-            if (this->stageParameters[this->currentStage].duration == 0)
+            if (this->currentStage > this->stageTotal || this->stageParameters[this->currentStage].duration == 0)
             {
                 this->Stop();
                 break;
