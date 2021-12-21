@@ -103,6 +103,9 @@ void MouseRunner::StartNewTrial(void)
     // Increase trial number.
     trial_number += 1;
 
+    // Reset stageParameters (puts everything at 0).
+    struct MouseRunner::StageParameters stageParameters[possible_stages];
+
     // Reset currentStage to 0; 
     this->currentStage = 0;
     
