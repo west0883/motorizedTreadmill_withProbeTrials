@@ -87,7 +87,7 @@ class MouseRunner
         void StartNextStage(void);
         
     public:
-        MouseRunner(const struct StageParameters *stageParameters, int stageTotal, Motor &motor, WarningTone &warningTone);
+        MouseRunner(const struct StageParameters *stageParameters, Motor &motor, WarningTone &warningTone);
 
         void Start(void);
         void Stop(void);
