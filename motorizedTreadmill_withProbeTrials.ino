@@ -26,28 +26,28 @@ int trial_number = 1;
 static constexpr int allSpeeds[] = {0, 1600, 2000, 2400, 2800};
 
 // write out what accelerations you want to include for starts and stops(steps/s/s):
-static constexpr int accelsStartStop[] = {400, 600, 800}; 
+static constexpr int accelsStartStop[] = {400, 800}; //600
 
 // What accelerations you want to include for speed changes (steps/s/s):
-static constexpr int accelsSpeedChange[] = {200, 400, 800}; 
+static constexpr int accelsSpeedChange[] = {200, 800}; //400
 
 // The amount of time spend at rest at start of recording (ms). Includes 30 seconds that is cut off from scope ramp-up.
 uint32_t StartRestTime = 45000;
 
 // Minimum amound of time the mouse must be at rest at end of recording (ms).
-uint32_t MinEndRestTime = 15000;
+uint32_t MinEndRestTime = 5000;
 
 // The total amount of time in the recording.(ms)
 uint32_t TotalTime = 330000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
-uint32_t WarnTime = 5000;
+uint32_t WarnTime = 3000;
 
 // The amount of minimum time you want per stage (includeing the warning time and posible transition times). (IN SECONDS)
-int MinStageTime = 15;
+int MinStageTime = 11;
 
 // The maximum amount of time you want per stage before a warning sound for next stage is given.(IN SECONDS)
-int MaxStageTime = 35;
+int MaxStageTime = 25;
 
 // Make a flag for if an input trigger (from Spike2) should be used.
 static const bool useTrigger = true; 
@@ -64,8 +64,11 @@ static const bool useAccels = true;
 // Probability of those probe trials, if used (a fraction of 1, 1 = 100% of the time); 
 static const double probability = 0.20; 
 
+// Number of posssible entries in stageParameters.
+static const int possible_stages = 25;
+
 // Initialize the time stage parameters array with a lot of possible entries
-struct MouseRunner::StageParameters stageParameters[25];
+struct MouseRunner::StageParameters stageParameters[possible_stages];
 
 // DON'T EDIT:
 
