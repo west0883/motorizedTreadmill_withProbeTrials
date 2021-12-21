@@ -57,7 +57,7 @@ void MouseRunner::Stop(void)
 }
 
 /**
- * \brief Starts running the mouse
+ * \brief s running the mouse
  *
  * \param none
  *
@@ -132,7 +132,7 @@ void MouseRunner::StartNewTrial(void)
       Serial.println("Waiting for Trigger");
     }
 
-    // Switch to state waiting, which will start the next trial.
+    // Switch to state waiting, if not already at waiting, which will start the next trial.
     this->state = State::Waiting;
 
     
