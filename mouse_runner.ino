@@ -12,9 +12,8 @@
  *
  * \return none
  */
-MouseRunner::MouseRunner(const struct StageParameters *stageParameters, int stageTotal, Motor &motor, WarningTone &warningTone):
+MouseRunner::MouseRunner(const struct StageParameters *stageParameters, Motor &motor, WarningTone &warningTone):
     stageParameters(stageParameters),
-    stageTotal(stageTotal),
     motor(motor),
     warningTone(warningTone)
 {
@@ -207,7 +206,10 @@ void MouseRunner::RunOnce(void)
             // Note we're starting another stage
             this->currentStage++;
 
-            // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop           
+            // If we're out of stages, or if the duration of the stage is 0, that means we've reached the end of the list of stages and need to stop  
+            Serial.print("duration = ");
+            Serial.println(stageParameters[this->currentStage].duration);
+                     
             if (this->stageParameters[this->currentStage].duration == 0)
             {
                 this->Stop();
