@@ -95,29 +95,9 @@ void setup(void)
 
   // Create a random seed for random sequence generator.
   randomSeed(analogRead(A1) * analogRead(A3) * analogRead(A5) * analogRead(A8) * analogRead(A10));
-  
-  // Randomize time. Edits stageParameters.
-  struct time_outputs randomTime = randomizeTime();
 
-  // Randomize speed. Edits stageParameters.
-  randomizeSpeed(randomTime);
-
-  // Randomize accelerations. Edits stageParameters. 
-  randomizeAccel(randomTime); 
-  
-  // Randomizes probe trials. Edits stageParameters. 
-  probeTrials(useProbeTrials, randomTime.count, probability);
-
-  mouseRunner.stageTotal = randomTime.count;
-
-  // Report stages to be run
-  HeaderReport(randomTime.count);
-
-  // If using a trigger, print out that it's waiting.
-  if (useTrigger)
-  {
-    Serial.println("Waiting for Trigger");
-  }
+  // Run the starting random functions and displays.
+  mouseRunner.StartNewTrial();
 }
 
 void loop(void)
