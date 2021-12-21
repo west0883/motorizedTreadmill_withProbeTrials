@@ -19,8 +19,8 @@
 // Flag for if the trial number count (used with Putty) should be used. 
 bool useTrialNumber = true;
 
-// Initial trial number to be displayed with Putty. Is updated automatically at the end of each complete trial.
-int trial_number = 1;
+// Initial trial number to be displayed with Putty. One less than the actual starting trail number. Is updated automatically at the end of each complete trial.
+int trial_number = 0;
 
 // write out what speeds you want to include (steps/s); 
 static constexpr int allSpeeds[] = {0, 1600, 2000, 2400, 2800};
@@ -38,7 +38,7 @@ uint32_t StartRestTime = 45000;
 uint32_t MinEndRestTime = 5000;
 
 // The total amount of time in the recording.(ms)
-uint32_t TotalTime = 330000;
+uint32_t TotalTime = 130000;
 
 // The amount of time before a stage switch the mouse is given the warning sound (ms).
 uint32_t WarnTime = 3000;
@@ -86,7 +86,7 @@ static uint32_t CurrentTime;
 // Declare your objects.
 static Motor motor;
 static WarningTone warningTone(useMaintaining);
-static MouseRunner mouseRunner(stageParameters, ARRAY_SIZE(stageParameters), motor, warningTone);
+static MouseRunner mouseRunner(stageParameters, motor, warningTone);
 
 void setup(void)
 {
