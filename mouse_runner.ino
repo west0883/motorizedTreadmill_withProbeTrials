@@ -225,7 +225,7 @@ void MouseRunner::RunOnce(void)
               Serial.print(", "); 
               Serial.println("Done.");
               Serial.println("");
-          
+
               // If we're using trial number updates, go to a new function that re-starts everything without going through the setup loop again.
               if (useTrialNumber) 
               {
